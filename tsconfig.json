@@ -3,6 +3,12 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@interfaces/*": ["src/app/intefaces/*"],
+      "@services/*": ["src/app/services/*"],
+      "@ui/*": ["src/app/ui"]
+    },
     "outDir": "./dist/out-tsc",
     "strict": true,
     "strictPropertyInitialization": false,
