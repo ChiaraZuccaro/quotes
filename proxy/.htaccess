@@ -1,0 +1,4 @@
+RewriteEngine On
+
+# Permetti API RESTful con parametri opzionali
+RewriteRule ^quote/([^/]+)(/([^/]+))?$ quote.php?action=$1&id=$3 [QSA,L]
