@@ -5,9 +5,11 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@interfaces/*": ["src/app/intefaces/*"],
+      "@interfaces/*": ["src/app/interfaces/*"],
       "@services/*": ["src/app/services/*"],
-      "@ui/*": ["src/app/ui"]
+      "@ui/*": ["src/app/ui"],
+      "@seo/*": ["src/app/pages/seo_configs/*"],
+      "@utils/*": ["src/app/utils/*"]
     },
     "outDir": "./dist/out-tsc",
     "strict": true,

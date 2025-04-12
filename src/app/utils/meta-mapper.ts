@@ -1,0 +1,16 @@
+export const META_TAGS_MAP: Record<string, { attr: 'name' | 'property'; tag: string }> = {
+  description: { attr: 'name', tag: 'description' },
+  keywords: { attr: 'name', tag: 'keywords' },
+  author: { attr: 'name', tag: 'author' },
+  robots: { attr: 'name', tag: 'robots' },
+  ogTitle: { attr: 'property', tag: 'og:title' },
+  ogDescription: { attr: 'property', tag: 'og:description' },
+  ogImage: { attr: 'property', tag: 'og:image' },
+  ogType: { attr: 'property', tag: 'og:type' },
+  ogUrl: { attr: 'property', tag: 'og:url' },
+  ogSiteName: { attr: 'property', tag: 'og:site_name' },
+  twitterTitle: { attr: 'name', tag: 'twitter:title' },
+  twitterDescription: { attr: 'name', tag: 'twitter:description' },
+  twitterImage: { attr: 'name', tag: 'twitter:image' },
+  twitterCard: { attr: 'name', tag: 'twitter:card' },
+};
