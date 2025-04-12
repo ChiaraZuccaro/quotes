@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Karla:ital,wght@0,200..800;1,200..800&display=swap');
+
+$primary_font: "Karla", sans-serif;
+$secondary_font: "Cormorant Garamond", serif;
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-family: $primary_font;
+}
+
+.italic {
+  font-family: $secondary_font;
+  font-weight: 300;
+  font-style: italic;
+}
