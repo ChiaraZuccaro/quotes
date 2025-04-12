@@ -1,1 +1,20 @@
-<p>home works!</p>
+<section id="random_quote">
+  <div class="quote_wrap">
+    <div class="quote_content">
+      <div class="quote__descr italic">
+        <span class="symbol"> " </span>
+        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Consectetur adipiscing elit quisque faucibus ex sapien vitae. Ex sapien vitae pellentesque sem placerat in id. Placerat in id cursus mi pretium tellus duis. Pretium tellus duis convallis tempus leo eu aenean.</p>
+        <span class="symbol"> " </span>
+      </div>
+      <hr>
+      <div class="quote__footer">
+        <span>Author</span>
+        <div class="quote__footer__btns">
+          <button (click)="addQuoteToFavorite()" class="btn_error">Heart</button>
+          <button (click)="getQuote()" class="btn_warning">Change</button>
+          <button (click)="saveQuote()" class="btn_success">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

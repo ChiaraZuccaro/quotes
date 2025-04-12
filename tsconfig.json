@@ -9,7 +9,8 @@
       "@services/*": ["src/app/services/*"],
       "@ui/*": ["src/app/ui"],
       "@seo/*": ["src/app/pages/seo_configs/*"],
-      "@utils/*": ["src/app/utils/*"]
+      "@utils/*": ["src/app/utils/*"],
+      "@entity/*": ["src/app/entities/*"]
     },
     "outDir": "./dist/out-tsc",
     "strict": true,

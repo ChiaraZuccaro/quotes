@@ -4,6 +4,10 @@
 $primary_font: "Karla", sans-serif;
 $secondary_font: "Cormorant Garamond", serif;
 
+$success_color: rgb(40, 95, 40);
+$error_color: rgb(107, 37, 37);
+$warning_color: rgb(134, 136, 27);
+
 * {
   padding: 0;
   margin: 0;
@@ -11,12 +15,42 @@ $secondary_font: "Cormorant Garamond", serif;
 }
 
 html {
-  font-size: clamp(14px, 1.5vw, 18px);
+  font-size: clamp(16px, 1.5vw, 20px);
   font-family: $primary_font;
+}
+
+body {
+  height: 100vh;
+}
+
+button {
+  font-family: $primary_font;
+  border-radius: .5rem;
+  border: none;
+  padding: .5rem;
+  background: none;
+  cursor: pointer;
 }
 
 .italic {
   font-family: $secondary_font;
   font-weight: 300;
   font-style: italic;
+}
+
+.btn {
+  &_success {
+    color: white;
+    background-color: $success_color;
+  }
+  
+  &_error {
+    color: white;
+    background-color: $error_color;
+  }
+  
+  &_warning {
+    color: white;
+    background-color: $warning_color;
+  }
 }
