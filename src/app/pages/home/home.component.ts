@@ -25,7 +25,6 @@ export class HomeComponent implements OnInit {
   public saveAsFavorite() {
     this.randomQuote.isFavorite = true;
     this.saveQuote();
-    this.getQuote();
   }
 
   public getQuote() {

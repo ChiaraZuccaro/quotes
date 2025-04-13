@@ -12,8 +12,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   </nav>`,
   styles: `
   nav {
-    position: absolute;
-    height: 50px;
+    height: 100%;
     width: 100%;
     background-color: white;
     display: inline-flex;

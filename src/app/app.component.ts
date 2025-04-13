@@ -7,8 +7,14 @@ import { NavComponent } from './ui/nav/nav.component';
   imports: [ RouterOutlet, NavComponent ],
   template: `
   <nav-custom></nav-custom>
-  <router-outlet/>
-  `,
-  styles: ``
+  <div class="container">
+    <router-outlet/>
+  </div>`,
+  styles: `
+  nav-custom { display: block; height: 50px; }
+  .container {
+    height: calc(100% - 50px);
+    router-outlet { display: none; }
+  }`
 })
 export class AppComponent {}
