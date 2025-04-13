@@ -22,8 +22,10 @@ export class HomeComponent implements OnInit {
     this.getQuote();
   }
 
-  public addQuoteToFavorite() {
-
+  public saveAsFavorite() {
+    this.randomQuote.isFavorite = true;
+    this.saveQuote();
+    this.getQuote();
   }
 
   public getQuote() {
@@ -34,6 +36,7 @@ export class HomeComponent implements OnInit {
   }
 
   public saveQuote() {
-
+    this._quoteService.saveQuoteInUserList(this.randomQuote);
+    this.getQuote();
   }
 }

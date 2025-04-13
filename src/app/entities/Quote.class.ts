@@ -7,6 +7,7 @@ export class Quote {
   public categories: string[];
   public addedDate: string;
   public id: string;
+  public isFavorite: boolean = false;
   
   constructor(quoteResp: QuoteResp) {
     const { content, author, authorSlug, tags, _id } = quoteResp;
@@ -16,8 +17,24 @@ export class Quote {
     this.categories = tags;
     this.id = _id;
   }
+  
+  private formatDate() {
+    const date = new Date();
+    // day
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    // hour
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${day}/${month}/${year} at ${hours}:${minutes}`;
+  }
 
   private generateQuoteId() {
     // TODO case creation by user
+  }
+
+  public setDateSave() {
+    this.addedDate = this.formatDate();
   }
 }
