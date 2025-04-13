@@ -1,6 +1,6 @@
-<section id="random_quote">
+<section id="random_quote" [class.loaded]="!isLoading()">
   @if(isLoading()) {
-    In caricamento ...
+    <span class="loader"></span>
   } @else {
     <div class="quote_wrap">
       <div class="quote_content">

@@ -6,7 +6,7 @@ import { catchError, map, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class QuotesService {
-  // Warning: base uri is configurated virtual host!
+  // Warning: base uri is a configurated virtual host!
   private readonly baseUri: string = 'http://quotes.local/quote';
   private _http = inject(HttpClient);
 

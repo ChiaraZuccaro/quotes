@@ -1,22 +1,39 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'nav-custom',
-  imports: [ RouterLink ],
-  templateUrl: './nav.component.html',
-  styleUrl: './nav.component.scss'
+  imports: [ RouterLink, RouterLinkActive ],
+  template: `
+  <nav>
+    @for (item of navLinks; track $index) {
+      <a [routerLink]="item.link" routerLinkActive="active">{{item.viewName}}</a>
+    }
+  </nav>`,
+  styles: `
+  nav {
+    position: absolute;
+    height: 50px;
+    width: 100%;
+    background-color: white;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+
+    a {
+      text-decoration: none;
+      color: black;
+
+      &.active {
+        text-decoration: underline;
+      }
+    }
+  }`
 })
-export class NavComponent implements OnInit {
-  private _routes = inject(ActivatedRoute);
+export class NavComponent {
   public navLinks = [
     { viewName: 'your list', link: '/user' },
     { viewName: 'explore', link: '/explore' }
   ];
-
-  ngOnInit(): void {
-    this._routes.url.subscribe(url => {
-      
-    })
-  }
 }
