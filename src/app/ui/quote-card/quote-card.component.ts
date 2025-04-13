@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Quote } from '@entity/Quote.class';
 
 @Component({
   selector: 'quote-card',
@@ -7,7 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './quote-card.component.scss'
 })
 export class QuoteCardComponent {
-
-
-   
+  @Input() quote: Quote;
 }

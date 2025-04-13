@@ -3,7 +3,7 @@
     <button class="btn_success">Create</button>
   </div>
   @if (list.length > 0) {
-    <list></list>
+    <list [listQuotes]="list"></list>
   } @else {
     <span class="no_quotes">It seem you don't have any quote saved :/</span>
   }

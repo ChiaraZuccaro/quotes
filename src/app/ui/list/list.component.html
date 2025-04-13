@@ -1,1 +1,11 @@
-<p>list works!</p>
+<section id="list">
+  <div class="filters">
+    filtri
+  </div>
+
+  <div class="quotes">
+    @for (quote of listQuotes; track $index) {
+      <quote-card [quote]="quote"></quote-card>
+    }
+  </div>
+</section>

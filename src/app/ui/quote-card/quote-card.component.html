@@ -1,1 +1,38 @@
-<p>quote-card works!</p>
+<article id="quote">
+  <div class="header">
+    <div class="fav" [class.is-fav]="quote.isFavorite">
+      <span class="icon icon-heart"></span>
+    </div>
+    <div class="pin" [class.is-pin]="quote.isPinned">
+      <span class="icon icon-pin"></span>
+    </div>
+    <div class="share" [class.open]="false">
+      <span class="icon icon-share-alt"></span>
+      <div class="socials" [class.show]="false">
+        <span class="icon icon-clipboard"></span>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="descr">
+    <p class="italic">
+      {{ quote.description }}
+    </p>
+  </div>
+  <hr>
+  <div class="footer">
+    <strong>{{ quote.author }}</strong>
+    <div class="feat">
+      <p class="feat__time">
+        <span class="icon icon-time"></span>
+        {{ quote.addedDate }}
+      </p>
+      <button class="btn_error">
+        <span class="icon icon-trash"></span>
+      </button>
+      <button class="btn_warning">
+        <span class="icon icon-edit-pencil"></span>
+      </button>
+    </div>
+  </div>
+</article>

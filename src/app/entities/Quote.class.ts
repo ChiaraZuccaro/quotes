@@ -8,6 +8,7 @@ export class Quote {
   public addedDate: string;
   public id: string;
   public isFavorite: boolean = false;
+  public isPinned: boolean = false;
   
   constructor(quoteResp: QuoteResp) {
     const { content, author, authorSlug, tags, _id } = quoteResp;
