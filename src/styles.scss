@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@use './styles/icons.scss';
+
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Karla:ital,wght@0,200..800;1,200..800&display=swap');
 
 $primary_font: "Karla", sans-serif;
