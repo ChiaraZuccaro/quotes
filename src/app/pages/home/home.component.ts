@@ -27,9 +27,10 @@ export class HomeComponent implements OnInit {
   }
 
   public getQuote() {
-    // this._quoteService.getRandomQuote().pipe(
-    //   finalize(() => this.isLoading.set(false))
-    // ).subscribe(newQuote => this.randomQuote = newQuote);
+    this.isLoading.set(true);
+    this._quoteService.getRandomQuote().pipe(
+      finalize(() => this.isLoading.set(false))
+    ).subscribe(newQuote => this.randomQuote = newQuote);
   }
 
   public saveQuote() {

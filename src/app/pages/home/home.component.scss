@@ -29,6 +29,7 @@
     &__descr {
       position: relative;
       display: inline-flex;
+      align-items: center;
       gap: .3rem;
 
       .symbol {

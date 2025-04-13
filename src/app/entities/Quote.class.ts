@@ -1,14 +1,16 @@
-export class Quote {
-  private description: string;
-  private author: string;
-  private categories: string[];
-  private addedDate: string;
-  private id: string;
-  
-  constructor(quoteResp: any) {
-    const { content, author, tags, _id } = quoteResp;
+import { QuoteResp } from "@interfaces/quotes-resp.interface";
 
-    this.description= content;
+export class Quote {
+  public description: string;
+  public author: string;
+  public author_slug: string;
+  public categories: string[];
+  public addedDate: string;
+  public id: string;
+  
+  constructor(quoteResp: QuoteResp[]) {
+    const { content, author, tags, _id } = quoteResp[0];
+    this.description = content;
     this.author = author;
     this.categories = tags;
     this.id = _id;
