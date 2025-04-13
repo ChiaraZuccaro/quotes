@@ -6,7 +6,7 @@ import { NavComponent } from './ui/nav/nav.component';
   selector: 'app-root',
   imports: [ RouterOutlet, NavComponent ],
   template: `
-  <nav></nav>
+  <nav-custom></nav-custom>
   <router-outlet/>
   `,
   styles: ``

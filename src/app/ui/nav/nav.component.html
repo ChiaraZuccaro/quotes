@@ -1,1 +1,5 @@
-<p>nav works!</p>
+<nav>
+  @for (item of navLinks; track $index) {
+    <a [routerLink]="item.link">{{item.viewName}}</a>
+  }
+</nav>
