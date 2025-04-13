@@ -1,4 +1,8 @@
 <?php
 $base = 'https://api.quotable.io/';
-define('RANDOM', $base . 'quote/random');
+
+$urlConfigs = [
+  'random' => $base . 'quotes/random',
+  'tags' => $base . 'tags'
+];
 ?>
