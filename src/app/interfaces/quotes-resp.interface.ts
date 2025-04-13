@@ -12,5 +12,5 @@ export interface QuoteResp {
 export interface GeneralResp {
   code: number,
   error: boolean,
-  result: QuoteResp[] | string
+  result: QuoteResp | string
 }

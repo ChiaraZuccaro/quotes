@@ -15,7 +15,7 @@ export class QuotesService {
     
     return this._http.get<GeneralResp>(url).pipe(
       tap(res => { if(res.error) { throw new Error(res.result as string) }}),
-      map(res => new Quote(res.result as QuoteResp[])),
+      map(res => new Quote(res.result as QuoteResp)),
       catchError(e => { throw new Error(e) })
     );
   }

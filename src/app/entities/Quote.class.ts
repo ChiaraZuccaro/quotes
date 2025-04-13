@@ -8,10 +8,11 @@ export class Quote {
   public addedDate: string;
   public id: string;
   
-  constructor(quoteResp: QuoteResp[]) {
-    const { content, author, tags, _id } = quoteResp[0];
+  constructor(quoteResp: QuoteResp) {
+    const { content, author, authorSlug, tags, _id } = quoteResp;
     this.description = content;
     this.author = author;
+    this.author_slug = authorSlug;
     this.categories = tags;
     this.id = _id;
   }

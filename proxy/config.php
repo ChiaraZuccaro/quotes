@@ -2,7 +2,7 @@
 $base = 'https://api.quotable.io/';
 
 $urlConfigs = [
-  'random' => $base . 'quotes/random',
+  'random' => $base . 'random',
   'tags' => $base . 'tags'
 ];
 ?>
