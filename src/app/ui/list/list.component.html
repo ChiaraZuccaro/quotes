@@ -4,7 +4,7 @@
   </div>
 
   <div class="quotes">
-    @for (quote of listQuotes; track $index) {
+    @for (quote of resortList(); track $index) {
       <quote-card [quote]="quote"></quote-card>
     }
   </div>

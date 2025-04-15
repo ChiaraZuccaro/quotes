@@ -1,4 +1,4 @@
-#quote {
+.quote {
   -webkit-box-shadow: 0px 0px 6px 2px #EBEBEB; 
   box-shadow: 0px 0px 6px 2px #EBEBEB;
   padding: 1rem;
@@ -9,8 +9,56 @@
   }
 
   .header {
+    width: 100%;
     display: inline-flex;
     justify-content: space-between;
+
+    &_left {
+      display: inherit;
+      gap: .5rem;
+
+      .fav {
+
+        &.is-fav {
+          color: red;
+        }
+      }
+
+      .pin {
+
+        &.is-pin {
+          color: green;
+        }
+      }
+    }
+
+    &_right {
+      display: inherit;
+      gap: 1.4rem;
+
+      .share {
+        &.open {
+          color: blue;
+        }
+  
+      }
+      .socials {
+        display: none;
+        &.show {
+          display: inherit;
+          gap: .9rem;
+          
+          .icon {
+            font-size: .9rem;
+          }
+        }
+      }
+    }
+  }
+
+  .descr {
+    text-align: center;
+    font-size: 1.2rem;
   }
 
   .footer {

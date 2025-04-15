@@ -1,16 +1,24 @@
-<article id="quote">
+<article [id]="quote.id" class="quote">
   <div class="header">
-    <div class="fav" [class.is-fav]="quote.isFavorite">
-      <span class="icon icon-heart"></span>
+    <div class="header_left">
+      <button (click)="changeFavorites()" class="ctas fav" [class.is-fav]="quote.isFavorite">
+        <span class="icon icon-heart"></span>
+      </button>
+      <button (click)="changePinned()" class="ctas pin" [class.is-pin]="quote.isPinned">
+        <span class="icon icon-pin"></span>
+      </button>
     </div>
-    <div class="pin" [class.is-pin]="quote.isPinned">
-      <span class="icon icon-pin"></span>
-    </div>
-    <div class="share" [class.open]="false">
-      <span class="icon icon-share-alt"></span>
-      <div class="socials" [class.show]="false">
-        <span class="icon icon-clipboard"></span>
+    <div class="header_right">
+      <div class="socials" [class.show]="quote.areSocialShown">
+        @for (share of shareItems; track $index) {
+          <button (click)="share.fn(quote)">
+            <span class="icon {{share.icon}}"></span>
+          </button>
+        }
       </div>
+      <button (click)="showSocials()" class="share" [class.open]="quote.areSocialShown">
+        <span class="icon icon-share-alt"></span>
+      </button>
     </div>
   </div>
   <hr>
@@ -21,7 +29,7 @@
   </div>
   <hr>
   <div class="footer">
-    <strong>{{ quote.author }}</strong>
+    <span>{{ quote.author }}</span>
     <div class="feat">
       <p class="feat__time">
         <span class="icon icon-time"></span>

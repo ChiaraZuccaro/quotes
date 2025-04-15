@@ -9,6 +9,7 @@ export class Quote {
   public id: string;
   public isFavorite: boolean = false;
   public isPinned: boolean = false;
+  public areSocialShown: boolean = false;
   
   constructor(quoteResp: QuoteResp) {
     const { content, author, authorSlug, tags, _id } = quoteResp;

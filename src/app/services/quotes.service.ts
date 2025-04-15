@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Quote } from '@entity/Quote.class';
 import { GeneralResp, QuoteResp } from '@interfaces/quotes-resp.interface';
 import { catchError, map, tap } from 'rxjs';
@@ -9,6 +9,7 @@ export class QuotesService {
   // Warning: base uri is a configurated virtual host!
   private readonly baseUri: string = 'http://quotes.local/quote';
 
+  public updateListTrigger = signal(0);
   public userList: Quote[];
 
   constructor(
@@ -34,9 +35,14 @@ export class QuotesService {
   private getTagsList() {
 
   }
+
+  public getUserList() {
+    
+  }
   //#endregion
 
   //#region user manage
+
   public saveQuoteInUserList(quote: Quote) {
     if(this.canSaveQuote(quote.id)) {
       quote.setDateSave();

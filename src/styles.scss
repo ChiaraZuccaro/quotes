@@ -29,7 +29,6 @@ button {
   font-family: $primary_font;
   border-radius: .5rem;
   border: none;
-  padding: .5rem;
   background: none;
   cursor: pointer;
 }
@@ -44,16 +43,19 @@ button {
   &_success {
     color: white;
     background-color: $success_color;
+    padding: .5rem;
   }
   
   &_error {
     color: white;
     background-color: $error_color;
+    padding: .5rem;
   }
   
   &_warning {
     color: white;
     background-color: $warning_color;
+    padding: .5rem;
   }
 }
 
