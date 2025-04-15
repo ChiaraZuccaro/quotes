@@ -7,12 +7,12 @@ import { NavComponent } from './ui/nav/nav.component';
   imports: [ RouterOutlet, NavComponent ],
   template: `
   <nav-custom></nav-custom>
-  <div class="container">
+  <div class="container_wrap">
     <router-outlet/>
   </div>`,
   styles: `
   nav-custom { display: block; height: 50px; }
-  .container {
+  .container_wrap {
     height: calc(100% - 50px);
     router-outlet { display: none; }
   }`

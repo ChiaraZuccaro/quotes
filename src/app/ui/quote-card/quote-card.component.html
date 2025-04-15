@@ -1,10 +1,10 @@
 <article [id]="quote.id" class="quote">
   <div class="header">
     <div class="header_left">
-      <button (click)="changeFavorites()" class="ctas fav" [class.is-fav]="quote.isFavorite">
+      <button (click)="changeFavorites()" class="fav" [class.is-fav]="quote.isFavorite">
         <span class="icon icon-heart"></span>
       </button>
-      <button (click)="changePinned()" class="ctas pin" [class.is-pin]="quote.isPinned">
+      <button (click)="changePinned()" class="pin" [class.is-pin]="quote.isPinned">
         <span class="icon icon-pin"></span>
       </button>
     </div>
@@ -35,10 +35,10 @@
         <span class="icon icon-time"></span>
         {{ quote.addedDate }}
       </p>
-      <button class="btn_error">
+      <button class="ctas">
         <span class="icon icon-trash"></span>
       </button>
-      <button class="btn_warning">
+      <button class="ctas">
         <span class="icon icon-edit-pencil"></span>
       </button>
     </div>

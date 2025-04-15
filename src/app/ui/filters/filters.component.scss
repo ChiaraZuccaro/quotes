@@ -1,0 +1,53 @@
+.filters {
+  &_wrap {
+    border-bottom-left-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+    padding: .6rem 1.1rem;
+
+    &.open {
+      .filters_actual {
+        margin-top: .5rem;
+        display: flex;
+        flex-direction: column;
+        gap: .4rem;
+
+        .items {
+          margin: .4rem 0;
+          border-bottom: var(--gold) 1px solid;
+          padding: .4rem;
+
+          &.accordion {
+            
+          }
+        }
+
+        input {
+          background-color: unset;
+          color: var(--gold);
+          &::placeholder {
+            color: var(--gold);
+            opacity: .7;
+          }
+        }
+      }
+    }
+  }
+  
+  &_head {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: start;
+    gap: .4rem;
+  }
+  
+  &_actual {
+    display: none;
+  }
+}
+
+
+.accordion {
+  border-radius: 0;
+  background-color: transparent;
+}

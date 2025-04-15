@@ -1,0 +1,33 @@
+<div class="filters_wrap bg_primary" [class.open]="showFilters">
+  <div (click)="openFilters()" class="filters_head">
+    <span class="icon icon-filter"></span>
+    <span>Filter by ...</span>
+  </div>
+  <div class="filters_actual">
+    <input [(ngModel)]="filters.typed" type="text" class="items" placeholder="Type quote or author ...">
+    <span (click)="filterBy('fav')" class="items">Show favorites only</span>
+    
+
+
+    <!-- <span (click)="filterBy('author')" class="items accordion">Authors</span>
+    <span (click)="filterBy('category')" class="items accordion">Themes</span> -->
+
+
+
+    
+    <!-- <div ngbAccordion [closeOthers]="true">
+      <div ngbAccordionItem [collapsed]="item !== 'First'">
+        <h2 ngbAccordionHeader>
+          <button ngbAccordionButton>{{ item }}</button>
+        </h2>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
+            <ng-template>
+              Anim pariatur cliche reprehenderit
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+</div>
