@@ -38,6 +38,12 @@ export class QuoteCardComponent implements OnDestroy {
       icon: 'icon-linkedin',
       fn: (quote, $index) => this.shareLink(quote, $index),
       name: 'linkedin'
+    },
+    {
+      copied: false,
+      icon: 'icon-x',
+      fn: (quote, $index) => this.shareLink(quote, $index),
+      name: 'x'
     }
   ];
 

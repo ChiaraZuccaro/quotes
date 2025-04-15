@@ -1,6 +1,6 @@
 import { Quote } from "@entity/Quote.class";
 
-export type Socials = 'whatsapp' | 'linkedin' | 'facebook' | 'copy'
+export type Socials = 'x' | 'whatsapp' | 'linkedin' | 'facebook' | 'copy';
 
 export interface ShareItem {
   copied: boolean,

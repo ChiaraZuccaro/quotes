@@ -13,6 +13,10 @@ export const SHARE_SOCIAL: Record<Socials, ShareLink> = {
     link: 'https://www.facebook.com/sharer/sharer.php?u=',
     hasText: false
   },
+  x: {
+    link: 'https://twitter.com/intent/tweet?text=',
+    hasText: true
+  },
   copy: {
     link: '',
     hasText: true

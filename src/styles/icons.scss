@@ -2,11 +2,11 @@
 
 @font-face {
   font-family: '#{$icomoon-font-family}';
-  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?chtiwo');
-  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?chtiwo#iefix') format('embedded-opentype'),
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?chtiwo') format('truetype'),
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?chtiwo') format('woff'),
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?chtiwo##{$icomoon-font-family}') format('svg');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?gphu0');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?gphu0#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?gphu0') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?gphu0') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?gphu0##{$icomoon-font-family}') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -27,6 +27,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-x {
+  &:before {
+    content: $icon-x; 
+  }
+}
 .icon-facebook {
   &:before {
     content: $icon-facebook; 
