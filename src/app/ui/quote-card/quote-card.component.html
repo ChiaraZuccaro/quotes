@@ -1,22 +1,26 @@
 <article [id]="quote.id" class="quote">
   <div class="header">
     <div class="header_left">
-      <button (click)="changeFavorites()" class="fav" [class.is-fav]="quote.isFavorite">
+      <button (click)="changeFavorites()" class="fav color_primary" [class.is-fav]="quote.isFavorite">
         <span class="icon icon-heart"></span>
       </button>
-      <button (click)="changePinned()" class="pin" [class.is-pin]="quote.isPinned">
+      <button (click)="changePinned()" class="pin color_primary" [class.is-pin]="quote.isPinned">
         <span class="icon icon-pin"></span>
       </button>
     </div>
     <div class="header_right">
       <div class="socials" [class.show]="quote.areSocialShown">
         @for (share of shareItems; track $index) {
-          <button (click)="share.fn(quote)">
-            <span class="icon {{share.icon}}"></span>
+          <button class="color_primary" (click)="share.fn(quote, $index)">
+            @if (share.copied) {
+              <span class="icon icon-thumbs-up"></span>
+            } @else {
+              <span class="icon {{share.icon}}"></span>
+            }
           </button>
         }
       </div>
-      <button (click)="showSocials()" class="share" [class.open]="quote.areSocialShown">
+      <button (click)="showSocials()" class="share color_primary" [class.open]="quote.areSocialShown">
         <span class="icon icon-share-alt"></span>
       </button>
     </div>
@@ -35,7 +39,7 @@
         <span class="icon icon-time"></span>
         {{ quote.addedDate }}
       </p>
-      <button class="ctas">
+      <button (click)="delete()" class="ctas">
         <span class="icon icon-trash"></span>
       </button>
       <button class="ctas">

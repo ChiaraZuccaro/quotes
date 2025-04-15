@@ -7,6 +7,7 @@ require_once 'config.php';
 $code = 500;
 $error = true;
 $result = null;
+$message = 'Generic error';
 
 $request_uri = trim($_SERVER['REQUEST_URI'], '/');
 $segments = explode('/', $request_uri);
@@ -24,9 +25,10 @@ if(isset($urlConfigs[$keyUrl])) {
 
   $context = stream_context_create($contextOptions);
   $resProv = file_get_contents($url, false, $context);
-
+  // TODO manage case api fails
   $result = json_decode($resProv);
   $code = 200;
+  $message = 'Everything went good!';
   $error = false;
 } else {
   $code = 404;
@@ -37,6 +39,7 @@ if(isset($urlConfigs[$keyUrl])) {
 $response = [
   'error' => $error,
   'code' => $code,
+  'message' => $message,
   'result' => $result
 ];
 

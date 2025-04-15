@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
   }
 
   public saveQuote() {
-    this._quoteService.saveQuoteInUserList(this.randomQuote);
+    this._quoteService.saveQuote(this.randomQuote);
     this.getQuote();
   }
 }

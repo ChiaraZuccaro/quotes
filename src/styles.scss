@@ -56,13 +56,20 @@ input {
   color: $gold;
 }
 
-.icon {
+.color_primary {
+  color: $primary_color;
+}
+
+.color_gold {
   color: $gold;
 }
 
 .ctas {
   background-color: #4e4e4e;
   padding: .5rem;
+  .icon {
+    color: $gold;
+  }
 }
 
 .italic {

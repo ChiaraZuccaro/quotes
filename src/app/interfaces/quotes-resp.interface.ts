@@ -12,5 +12,6 @@ export interface QuoteResp {
 export interface GeneralResp {
   code: number,
   error: boolean,
-  result: QuoteResp | string
+  message: string,
+  result: QuoteResp
 }
