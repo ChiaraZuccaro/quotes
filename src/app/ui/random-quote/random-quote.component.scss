@@ -1,9 +1,8 @@
 #random_quote {
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  // background-image: ;
+  height: 100%;
 
   &.loaded {
     align-items: end;

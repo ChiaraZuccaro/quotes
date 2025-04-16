@@ -1,16 +1,14 @@
 #user_list {
   height: 100%;
 
+  list {
+    display: flex;
+    justify-content: center;
+  }
+
   .no_quotes {
     display: block;
     text-align: center;
     margin: 3rem 0;
-  }
-
-  .create {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem 0;
   }
 }
