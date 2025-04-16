@@ -4,12 +4,13 @@ import { NavComponent } from './ui/nav/nav.component';
 
 @Component({
   selector: 'app-root',
-  imports: [ RouterOutlet, NavComponent ],
+  imports: [ RouterOutlet ],
   template: `
-  <nav-custom></nav-custom>
-  <div class="container_wrap">
+  <!-- <nav-custom></nav-custom> -->
+  <!-- <div class="container_wrap"> -->
     <router-outlet/>
-  </div>`,
+  <!-- </div> -->
+  `,
   styles: `
   nav-custom { display: block; height: 50px; }
   .container_wrap {
