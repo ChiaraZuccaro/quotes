@@ -37,7 +37,7 @@
     <div class="feat">
       <p class="feat__time">
         <span class="icon icon-time"></span>
-        {{ quote.addedDate }}
+        {{ quote.addedDate | date: 'dd/MM/YYYY \'at\' HH:mm' }}
       </p>
       <button (click)="delete()" class="ctas">
         <span class="icon icon-trash"></span>

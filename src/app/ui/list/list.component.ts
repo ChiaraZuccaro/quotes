@@ -15,9 +15,7 @@ export class ListComponent {
 
   public resortList = computed(() => {
     this._quotesService.updateListTrigger();
-    return [...this._quotesService.quotes()].sort(
-      (prevQuote, nextQuote) => this.sortRulesList(prevQuote, nextQuote)
-    );
+    return [...this._quotesService.quotes()].sort(this.sortRulesList);
   });
 
   private sortRulesList(prevQuote: Quote, nextQuote: Quote) {
@@ -25,6 +23,8 @@ export class ListComponent {
     if(prevQuote.isPinned && !nextQuote.isPinned) return -1;
     if(!prevQuote.isPinned && nextQuote.isPinned) return 1;
     // secondary priority sort (by Date)
-    return new Date(prevQuote.addedDate).getTime() - new Date(nextQuote.addedDate).getTime();
+    const nextDate = new Date(nextQuote.addedDate).getTime();
+    const prevDate = new Date(prevQuote.addedDate).getTime();
+    return nextDate - prevDate;
   }
 }

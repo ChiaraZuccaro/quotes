@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, inject, Input, OnDestroy } from '@angular/core';
 import { Quote } from '@entity/Quote.class';
 import { ShareItem } from '@interfaces/quote-card.interface';
@@ -6,7 +7,7 @@ import { SHARE_SOCIAL } from '@utils/social-links';
 
 @Component({
   selector: 'quote-card',
-  imports: [],
+  imports: [ DatePipe ],
   templateUrl: './quote-card.component.html',
   styleUrl: './quote-card.component.scss'
 })
