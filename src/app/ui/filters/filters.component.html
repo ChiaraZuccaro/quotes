@@ -4,30 +4,31 @@
     <span>Filter by ...</span>
   </div>
   <div class="filters_actual">
-    <input [(ngModel)]="filters.typed" type="text" class="items" placeholder="Type quote or author ...">
-    <span (click)="filterBy('fav')" class="items">Show favorites only</span>
+    <input (input)="filterBy('typed')" [(ngModel)]="filters.typed" type="text" class="items" placeholder="Type quote or author ...">
+    <span (click)="filters.favorites = !filters.favorites; filterBy('fav')" class="items">Show favorites only</span>
     
-
-
-    <!-- <span (click)="filterBy('author')" class="items accordion">Authors</span>
-    <span (click)="filterBy('category')" class="items accordion">Themes</span> -->
-
-
-
-    
-    <!-- <div ngbAccordion [closeOthers]="true">
-      <div ngbAccordionItem [collapsed]="item !== 'First'">
-        <h2 ngbAccordionHeader>
-          <button ngbAccordionButton>{{ item }}</button>
-        </h2>
-        <div ngbAccordionCollapse>
-          <div ngbAccordionBody>
-            <ng-template>
-              Anim pariatur cliche reprehenderit
-            </ng-template>
-          </div>
-        </div>
+    <div class="items" [class.show]="openedAccordion.includes('author')">
+      <span class="accordion_title" (click)="manageAccordion('author')">
+        Authors
+        <span class="icon icon-cheveron-outline-{{openedAccordion.includes('author') ? 'up' : 'down'}}"></span>
+      </span>
+      <div class="accordion_content" [class.show_content]="openedAccordion.includes('author')">
+        @for (author of filters.authors; track $index) {
+          <span class="pill" [class.full]="selectedAuthors.includes(author)" (click)="manageSelection(author,'author')">{{author}}</span>
+        }
       </div>
-    </div> -->
+    </div>
+
+    <div class="items" [class.show]="openedAccordion.includes('category')">
+      <span class="accordion_title" (click)="manageAccordion('category')">
+        Categories
+        <span class="icon icon-cheveron-outline-{{openedAccordion.includes('category') ? 'up' : 'down'}}"></span>
+      </span>
+      <div class="accordion_content" [class.show_content]="openedAccordion.includes('category')">
+        @for (category of filters.categories; track $index) {
+          <span class="pill" [class.full]="selectedCategories.includes(category)" (click)="manageSelection(category,'category')">{{category}}</span>
+        }
+      </div>
+    </div>
   </div>
 </div>

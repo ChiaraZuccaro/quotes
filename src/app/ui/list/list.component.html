@@ -1,11 +1,16 @@
 <section id="list">
   <div class="filters">
-    <filters [originalList]="resortList()"></filters>
+    <filters></filters>
   </div>
 
   <div class="quotes">
-    @for (quote of resortList(); track $index) {
-      <quote-card [quote]="quote"></quote-card>
+    @if(resortList().length > 0) {
+      <span>Showing {{ resortList().length }} item{{ resortList().length === 1 ? '' : 's' }}</span>
+      @for (quote of resortList(); track $index) {
+        <quote-card [quote]="quote"></quote-card>
+      }
+    } @else {
+      <span>No quotes founded!</span>
     }
   </div>
 </section>

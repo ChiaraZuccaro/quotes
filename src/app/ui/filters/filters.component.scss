@@ -9,16 +9,42 @@
         margin-top: .5rem;
         display: flex;
         flex-direction: column;
-        gap: .4rem;
+        gap: .5rem;
 
         .items {
-          margin: .4rem 0;
+          font-size: .9rem;
           border-bottom: var(--gold) 1px solid;
           padding: .4rem;
 
-          &.accordion {
-            
+          &:last-child {
+            margin-bottom: .5rem;
           }
+
+          .accordion {
+            &_content {
+              display: none;
+            }
+            &_title {
+              display: inline-flex;
+              justify-content: space-between;
+              align-items: center;
+              width: 100%;
+            }
+          }
+
+          &.show {
+
+            .accordion_content {
+              &.show_content {
+                margin-top: .4rem;
+                display: flex;
+                flex-flow: row wrap;
+                column-gap: .8rem;
+                row-gap: .3rem;
+              }
+            }
+          }
+
         }
 
         input {
@@ -27,6 +53,7 @@
           &::placeholder {
             color: var(--gold);
             opacity: .7;
+            font-size: .9rem;
           }
         }
       }
