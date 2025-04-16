@@ -32,11 +32,10 @@ export class QuotesService {
   public getRandomQuote() {
     const url = `${this.baseUri}/random`;
     
-    return this._http.get<GeneralResp>(url).pipe(
-      tap(res => { if(res.error) { throw new Error(res.message) }}),
-      map(res => new Quote(res.result)),
-      catchError(e => { throw new Error(e) })
-    );
+    return this._http.get<GeneralResp>(url).pipe(map(res => {
+      if(res.error) { throw new Error(res.message) }
+      return new Quote(res.result);
+    }));
   }
 
   private getTagsList() {
