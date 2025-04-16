@@ -1,0 +1,34 @@
+<section id="random_quote" [class.loaded]="!isLoading()">
+  @if(isLoading()) {
+    <span class="loader"></span>
+  } @else {
+    <div class="quote_wrap">
+      <div class="quote_content">
+        @if(!randomQuote) {
+          {{errorMessage}}
+        } @else {
+          <div class="quote__descr italic">
+            <span class="symbol"> " </span>
+            <p>{{randomQuote.description}}</p>
+            <span class="symbol"> " </span>
+          </div>
+          <hr>
+          <div class="quote__footer">
+            <span>{{randomQuote.author}}</span>
+            <div class="quote__footer__btns">
+              <button (click)="saveAsFavorite()" class="ctas">
+                <span class="icon icon-heart"></span>
+              </button>
+              <button (click)="getQuote()" class="ctas">
+                <span class="icon icon-reload"></span>
+              </button>
+              <button (click)="saveQuote()" class="ctas">
+                <span class="icon icon-save-disk"></span>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</section>

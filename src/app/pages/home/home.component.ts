@@ -1,12 +1,13 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { Quote } from '@entity/Quote.class';
+import { Component, inject, OnInit } from '@angular/core';
 import { QuotesService } from '@services/quotes.service';
 import { SeoService } from '@services/seo.service';
-import { catchError, finalize, throwError } from 'rxjs';
+import { UserComponent } from '../user/user.component';
+import { RandomQuoteComponent } from 'src/app/ui/random-quote/random-quote.component';
+import { CreateNewComponent } from 'src/app/ui/create-new/create-new.component';
 
 @Component({
   selector: 'home',
-  imports: [],
+  imports: [ UserComponent, RandomQuoteComponent, CreateNewComponent ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -14,33 +15,7 @@ export class HomeComponent implements OnInit {
   private _seoService = inject(SeoService);
   private _quoteService = inject(QuotesService);
 
-  public randomQuote: Quote;
-  public errorMessage: string;
-  public isLoading = signal(true);
-
   ngOnInit(): void {
     this._seoService.updateMetaTag('home');
-    this.getQuote();
-  }
-
-  public saveAsFavorite() {
-    this.randomQuote.isFavorite = true;
-    this.saveQuote();
-  }
-
-  public getQuote() {
-    this.isLoading.set(true);
-    this._quoteService.getRandomQuote().pipe(
-      catchError(err =>  throwError(() => err)),
-      finalize(() => this.isLoading.set(false))
-    ).subscribe({
-      next: newQuote => this.randomQuote = newQuote,
-      error: err => this.errorMessage = err.message
-    });
-  }
-
-  public saveQuote() {
-    this._quoteService.saveQuote(this.randomQuote);
-    this.getQuote();
   }
 }
