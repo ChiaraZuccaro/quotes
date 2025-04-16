@@ -1,8 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Quote } from '@entity/Quote.class';
 import { Filters } from '@interfaces/filters.interface';
 import { QuotesService } from '@services/quotes.service';
+import { map, Subject, takeUntil } from 'rxjs';
 
 type FiltersType = 'fav' | 'author' | 'typed' | 'category';
 
@@ -16,8 +18,12 @@ type FiltersType = 'fav' | 'author' | 'typed' | 'category';
 // filter by categories
 // filter by typed string
 // filter by author
-export class FiltersComponent implements OnInit {
+export class FiltersComponent implements OnInit, OnDestroy {
   private _quotesService = inject(QuotesService);
+  private _breakpointObserver = inject(BreakpointObserver);
+
+  private $destroy = new Subject();
+
   private copyList: Quote[];
   
   public filters: Filters;
@@ -29,8 +35,17 @@ export class FiltersComponent implements OnInit {
   public openedAccordion: string[] = [];
 
   ngOnInit(): void {
+    this._breakpointObserver.observe([Breakpoints.Handset]).pipe(
+      map(res => res.matches || window.innerWidth < 600), takeUntil(this.$destroy)
+    ).subscribe(isMobile => this.showFilters = !isMobile);
+
     this.copyList = structuredClone(this._quotesService.quotes());
     this.filters = this.createFiltersFrom(this.copyList);
+  }
+
+  ngOnDestroy(): void {
+    this.$destroy.next(true);
+    this.$destroy.complete();
   }
 
   private canAdd(item: string, itemsList: string[]) {
