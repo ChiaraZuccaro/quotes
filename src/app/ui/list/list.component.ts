@@ -27,4 +27,9 @@ export class ListComponent {
     const prevDate = new Date(prevQuote.addedDate).getTime();
     return nextDate - prevDate;
   }
+
+  public deleteAllQuotes() {
+    // TODO Insert a modal to warn the user that this is an irreversible action
+    this._quotesService.quotes.set([]);
+  }
 }

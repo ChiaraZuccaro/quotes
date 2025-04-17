@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, computed, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, inject, input, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Quote } from '@entity/Quote.class';
 import { ShareItem } from '@interfaces/quote-card.interface';
@@ -52,12 +52,12 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
     name: 'x'
   }];
 
-  @Input() quote: Quote;
+  public quote = input.required<Quote>();
 
   ngOnInit(): void {
     this.isEditMode = this.isCreatingMode();
-    this.newDescription = this.quote.description;
-    this.newAuthor = this.quote.author;
+    this.newDescription = this.quote().description;
+    this.newAuthor = this.quote().author;
   }
 
   ngOnDestroy(): void {
@@ -88,39 +88,39 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
   }
 
   public changeFavorites() {
-    this.quote.isFavorite = !this.quote.isFavorite;
+    this.quote().isFavorite = !this.quote().isFavorite;
   }
 
   public changePinned() {
-    this.quote.isPinned = !this.quote.isPinned;
+    this.quote().isPinned = !this.quote().isPinned;
     this._quotesService.updateListTrigger.set(Math.random());
     this._quotesService.saveQuotes();
   }
 
   public showSocials() {
-    this.quote.areSocialShown = !this.quote.areSocialShown;
+    this.quote().areSocialShown = !this.quote().areSocialShown;
   }
 
   public delete() {
-    this._quotesService.deleteQuote(this.quote.id);
+    this._quotesService.deleteQuote(this.quote().id);
   }
 
   public saveEdit() {
     if(this.newDescription === '') {
       this.newDescription = 'You need to write at least one character!';
-      this.timeoutIds.push(setTimeout(() => this.newDescription = this.quote.description, 1500));
+      this.timeoutIds.push(setTimeout(() => this.newDescription = this.quote().description, 1500));
       return;
     }
     this.isEditMode = !this.isEditMode;
 
-    this.quote.description = this.newDescription;
-    this.quote.author = this.newAuthor === '' ? 'Anonymous' : this.newAuthor;
-    this.quote.author_slug = this.quote.author.toLowerCase().replace(' ', '-');
+    this.quote().description = this.newDescription;
+    this.quote().author = this.newAuthor === '' ? 'Anonymous' : this.newAuthor;
+    this.quote().author_slug = this.quote().author.toLowerCase().replace(' ', '-');
 
     if(this.isCreatingMode()) {
-      this.quote.addedDate = new Date();
-      this.quote.generateQuoteId();
-      this._quotesService.saveQuote(this.quote);
+      this.quote().addedDate = new Date();
+      this.quote().generateQuoteId();
+      this._quotesService.saveQuote(this.quote());
       this._quotesService.isCreatingMode.set(false);
       return;
     }

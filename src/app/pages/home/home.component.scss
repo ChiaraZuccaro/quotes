@@ -15,7 +15,7 @@
 }
 
 #user_list {
-  height: 100%;
+  padding: 3rem;
 
   list {
     display: flex;
@@ -25,7 +25,6 @@
   .no_quotes {
     display: block;
     text-align: center;
-    margin: 3rem 0;
   }
 }
 

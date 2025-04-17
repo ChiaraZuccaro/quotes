@@ -1,17 +1,17 @@
-<article [id]="quote.id" class="quote">
+<article [id]="quote().id" class="quote">
   <div class="header" [class.disable]="isEditMode">
     <div class="header_left">
-      <button (click)="changeFavorites()" class="fav color_primary" [class.is-fav]="quote.isFavorite">
+      <button (click)="changeFavorites()" class="fav color_primary" [class.is-fav]="quote().isFavorite">
         <span class="icon icon-heart"></span>
       </button>
-      <button (click)="changePinned()" class="pin color_primary" [class.is-pin]="quote.isPinned">
+      <button (click)="changePinned()" class="pin color_primary" [class.is-pin]="quote().isPinned">
         <span class="icon icon-pin"></span>
       </button>
     </div>
     <div class="header_right">
-      <div class="socials" [class.show]="quote.areSocialShown">
+      <div class="socials" [class.show]="quote().areSocialShown">
         @for (share of shareItems; track $index) {
-          <button class="color_primary" (click)="share.fn(quote, $index)">
+          <button class="color_primary" (click)="share.fn(quote(), $index)">
             @if (share.copied) {
               <span class="icon icon-thumbs-up"></span>
             } @else {
@@ -20,7 +20,7 @@
           </button>
         }
       </div>
-      <button (click)="showSocials()" class="share color_primary" [class.open]="quote.areSocialShown">
+      <button (click)="showSocials()" class="share color_primary" [class.open]="quote().areSocialShown">
         <span class="icon icon-share-alt"></span>
       </button>
     </div>
@@ -31,22 +31,22 @@
   <div class="descr">
     @if(isEditMode) {
       <textarea [(ngModel)]="newDescription" class="italic" name="quote_descr"
-      >{{ quote.description }}</textarea>
-    } @else { <p class="italic">{{ quote.description }}</p> }
+      >{{ quote().description }}</textarea>
+    } @else { <p class="italic">{{ quote().description }}</p> }
   </div>
 
   @if(!isEditMode) { <hr> }
 
   <div class="footer">
     @if(isEditMode) {
-      <input class="edit_author" [(ngModel)]="newAuthor" type="text" name="quote_author" [placeholder]="quote.author">
-    } @else { <span>{{ quote.author }}</span> }
+      <input class="edit_author" [(ngModel)]="newAuthor" type="text" name="quote_author" [placeholder]="quote().author">
+    } @else { <span>{{ quote().author }}</span> }
 
     <div class="feat">
       <p class="feat__time" [class.disable]="isEditMode">
         <span class="icon icon-time"></span>
-        @if(quote.addedDate) {
-          {{ quote.addedDate | date: 'dd/MM/YYYY \'at\' HH:mm' }}
+        @if(quote().addedDate) {
+          {{ quote().addedDate | date: 'dd/MM/YYYY \'at\' HH:mm' }}
         } @else { --/--/---- at --:-- }
       </p>
       <button (click)="isEditMode ? changeEditMode() : delete()" class="ctas">

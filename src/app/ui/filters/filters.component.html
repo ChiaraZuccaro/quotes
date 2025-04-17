@@ -19,16 +19,18 @@
       </div>
     </div>
 
-    <div class="items" [class.show]="openedAccordion.includes('category')">
-      <span class="accordion_title" (click)="manageAccordion('category')">
-        Categories
-        <span class="icon icon-cheveron-outline-{{openedAccordion.includes('category') ? 'up' : 'down'}}"></span>
-      </span>
-      <div class="accordion_content" [class.show_content]="openedAccordion.includes('category')">
-        @for (category of filters.categories; track $index) {
-          <span class="pill" [class.full]="selectedCategories.includes(category)" (click)="manageSelection(category,'category')">{{category}}</span>
-        }
+    @if(filters.categories.length > 0) {
+      <div class="items" [class.show]="openedAccordion.includes('category')">
+        <span class="accordion_title" (click)="manageAccordion('category')">
+          Categories
+          <span class="icon icon-cheveron-outline-{{openedAccordion.includes('category') ? 'up' : 'down'}}"></span>
+        </span>
+        <div class="accordion_content" [class.show_content]="openedAccordion.includes('category')">
+          @for (category of filters.categories; track $index) {
+            <span class="pill" [class.full]="selectedCategories.includes(category)" (click)="manageSelection(category,'category')">{{category}}</span>
+          }
+        </div>
       </div>
-    </div>
+    }
   </div>
 </div>

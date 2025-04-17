@@ -32,7 +32,8 @@ export class QuotesService {
 
   constructor(
     private _http: HttpClient
-  ) { this.quotes.set(JSON.parse(localStorage.getItem('user_quotes') || '[]')); }
+  ) { const raw = JSON.parse(localStorage.getItem('user_quotes') || '[]');
+  this.quotes.set(raw.map((qt: Quote) => Quote.createFakingResp(qt)));}
 
   private canSaveQuote(quoteId: string): boolean {
     const indexFinded = this.quotes().findIndex(quote => quote.id.includes(quoteId));

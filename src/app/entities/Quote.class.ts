@@ -20,6 +20,25 @@ export class Quote {
     this.categories = tags;
     this.id = _id;
   }
+
+  public static createFakingResp(quote: Quote) {
+    const fakeResp = {
+      content: quote.description,
+      author: quote.author,
+      authorSlug: quote.author_slug,
+      _id: quote.id,
+      dateAdded: new Date(quote.addedDate).toISOString(),
+      dateModified: new Date(quote.addedDate).toISOString(),
+      length: quote.description.length,
+      tags: [ ...quote.categories ]
+    };
+    const q = new Quote(fakeResp);
+    q.addedDate = quote.addedDate;
+    q.isFavorite = quote.isFavorite;
+    q.isPinned = quote.isPinned;
+    q.areSocialShown = quote.areSocialShown;
+    return q;
+  }
   
   public generateQuoteId() {
     this.id = getRandomString();
