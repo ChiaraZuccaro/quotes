@@ -8,11 +8,11 @@ const exploreRoutes = [
 ];
 
 export const routes: Routes = [
-  { path: 'home', component: HomeComponent, pathMatch: 'full' },
+  { path: '', component: HomeComponent, pathMatch: 'full' },
   {
     path: 'explore',
     component: ExploreComponent,
     children: exploreRoutes
   },
-  { path: '**', redirectTo: '/home' }
+  { path: '**', redirectTo: '/' }
 ];

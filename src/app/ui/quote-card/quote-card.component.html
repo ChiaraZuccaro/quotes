@@ -1,5 +1,5 @@
 <article [id]="quote.id" class="quote">
-  <div class="header">
+  <div class="header" [class.disable]="isEditMode">
     <div class="header_left">
       <button (click)="changeFavorites()" class="fav color_primary" [class.is-fav]="quote.isFavorite">
         <span class="icon icon-heart"></span>
@@ -25,25 +25,39 @@
       </button>
     </div>
   </div>
-  <hr>
+
+  @if(!isEditMode) { <hr> }
+
   <div class="descr">
-    <p class="italic">
-      {{ quote.description }}
-    </p>
+    @if(isEditMode) {
+      <textarea [(ngModel)]="newDescription" class="italic" name="quote_descr"
+      >{{ quote.description }}</textarea>
+    } @else { <p class="italic">{{ quote.description }}</p> }
   </div>
-  <hr>
+
+  @if(!isEditMode) { <hr> }
+
   <div class="footer">
-    <span>{{ quote.author }}</span>
+    @if(isEditMode) {
+      <input class="edit_author" [(ngModel)]="newAuthor" type="text" name="quote_author" [placeholder]="quote.author">
+    } @else { <span>{{ quote.author }}</span> }
+
     <div class="feat">
-      <p class="feat__time">
+      <p class="feat__time" [class.disable]="isEditMode">
         <span class="icon icon-time"></span>
-        {{ quote.addedDate | date: 'dd/MM/YYYY \'at\' HH:mm' }}
+        @if(quote.addedDate) {
+          {{ quote.addedDate | date: 'dd/MM/YYYY \'at\' HH:mm' }}
+        } @else { --/--/---- at --:-- }
       </p>
-      <button (click)="delete()" class="ctas">
-        <span class="icon icon-trash"></span>
+      <button (click)="isEditMode ? changeEditMode() : delete()" class="ctas">
+        @if(isEditMode) {
+          <span class="icon icon-close"></span>
+        } @else { <span class="icon icon-trash"></span> }
       </button>
-      <button class="ctas">
-        <span class="icon icon-edit-pencil"></span>
+      <button (click)="isEditMode ? saveEdit() : changeEditMode()" class="ctas">
+        @if(isEditMode) {
+          <span class="icon icon-save-disk"></span>
+        } @else { <span class="icon icon-edit-pencil"></span> }
       </button>
     </div>
   </div>

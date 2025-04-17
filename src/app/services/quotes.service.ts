@@ -1,14 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, Injectable, signal, WritableSignal } from '@angular/core';
 import { Quote } from '@entity/Quote.class';
-import { GeneralResp } from '@interfaces/quotes-resp.interface';
-import { catchError, map, tap } from 'rxjs';
+import { GeneralResp, QuoteResp } from '@interfaces/quotes-resp.interface';
+import { map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class QuotesService {
   // Warning: base uri is a configurated virtual host!
   private readonly baseUri: string = 'http://quotes.local/quote';
 
+  public initQuote: QuoteResp = {
+    author: '',
+    authorSlug: '',
+    content: '',
+    dateAdded: '',
+    dateModified: '',
+    length: 0,
+    tags: [''],
+    _id: ''
+  };
   public updateListTrigger = signal(0);
   public quotes: WritableSignal<Quote[]> = signal([]);
   public saveQuotes = computed(() => {
@@ -56,10 +66,6 @@ export class QuotesService {
       this.quotes.set(actualList);
       this.saveQuotes();
     } else { console.warn('Quote already inserted!') }
-  }
-
-  public editQuoteInUserList() {
-    
   }
 
   public deleteQuote(quoteId: string) {

@@ -1,9 +1,12 @@
 <section id="hero" class="bg_primary">
   <random-quote></random-quote>
-  <div class="ctas_btns">
-    <create-new></create-new>
-    <a class="color_gold" routerLink="/explore">Explore</a>
-  </div>
+  <ctas></ctas>
 </section>
 
-<user></user>
+<section id="user_list">
+  @if (quoteService.quotes().length > 0) {
+    <list></list>
+  } @else {
+    <span class="no_quotes">It seem you don't have any quote saved :/</span>
+  }
+</section>

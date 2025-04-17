@@ -1,4 +1,5 @@
 import { QuoteResp } from "@interfaces/quotes-resp.interface";
+import { getRandomString } from "@utils/methods";
 
 export class Quote {
   public description: string;
@@ -20,8 +21,8 @@ export class Quote {
     this.id = _id;
   }
   
-  private generateQuoteId() {
-    // TODO case creation by user
+  public generateQuoteId() {
+    this.id = getRandomString();
   }
 
   public setDateSave() {

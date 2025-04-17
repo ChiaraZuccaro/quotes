@@ -50,6 +50,7 @@ button {
 input {
   outline: none;
   border: none;
+  font-family: $primary_font;
 }
 
 .pill {
@@ -78,6 +79,9 @@ input {
 .ctas {
   background-color: #4e4e4e;
   padding: .5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   .icon {
     color: $gold;
   }
