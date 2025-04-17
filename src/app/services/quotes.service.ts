@@ -19,6 +19,7 @@ export class QuotesService {
     tags: [''],
     _id: ''
   };
+  public isCreatingMode = signal(false);
   public updateListTrigger = signal(0);
   public quotes: WritableSignal<Quote[]> = signal([]);
   public saveQuotes = computed(() => {

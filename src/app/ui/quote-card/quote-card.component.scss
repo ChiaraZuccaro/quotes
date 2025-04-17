@@ -19,20 +19,14 @@
       gap: .5rem;
 
       .fav {
-
         &.is-fav {
-          .icon {
-            color: red;
-          }
+          .icon { color: rgb(204, 21, 21); }
         }
       }
 
       .pin {
-
-        &.is-pin {
-          .icon {
-            color: green;
-          }
+        &.is-pin { 
+          .icon { color: green; }
         }
       }
     }
@@ -43,9 +37,7 @@
 
       .share {
         &.open {
-          .icon {
-            color: blue;
-          }
+          .icon { color: rgb(32, 143, 235); }
         }
   
       }
@@ -55,9 +47,7 @@
           display: inherit;
           gap: .9rem;
           
-          .icon {
-            font-size: .9rem;
-          }
+          .icon { font-size: .9rem; }
         }
       }
     }
@@ -122,4 +112,20 @@
 .disable {
   pointer-events: none;
   opacity: .5;
+}
+
+@media(min-width: 1100px) {
+  .quote {
+    .descr {
+      textarea {
+        font-size: 1.1rem;
+      }
+    }
+  
+    .footer {
+      .edit_author {
+        font-size: .9rem;
+      }
+    }
+  }
 }

@@ -1,14 +1,14 @@
 <section id="ctas">
   <div class="btns">
-    @if(!isCreateModeOn) {
+    @if(!isCreateModeOn()) {
       <a class="pill full" routerLink="/explore">Explore</a>
     }
-    <button (click)="isCreateModeOn = !isCreateModeOn" [class.full]="isCreateModeOn" class="pill color_gold">
+    <button (click)="activeCreatingMode()" [class.full]="isCreateModeOn()" class="pill color_gold">
       <span>Create yours</span>
     </button>
   </div>
 
-  @if (isCreateModeOn) {
+  @if (isCreateModeOn()) {
     <quote-card [quote]="newQuote"></quote-card>
   }
 </section>

@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Quote } from '@entity/Quote.class';
 import { ShareItem } from '@interfaces/quote-card.interface';
@@ -17,7 +17,7 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
   private timeoutIds: ReturnType<typeof setTimeout>[] = [];
 
   public isEditMode: boolean = false;
-  public isCreatingMode: boolean = false;
+  public isCreatingMode = computed(() => this._quotesService.isCreatingMode());
   public newDescription: string;
   public newAuthor: string;
 
@@ -55,7 +55,7 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
   @Input() quote: Quote;
 
   ngOnInit(): void {
-    this.isEditMode = this.isCreatingMode = this.setCreatingMode();
+    this.isEditMode = this.isCreatingMode();
     this.newDescription = this.quote.description;
     this.newAuthor = this.quote.author;
   }
@@ -86,10 +86,6 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
       this.timeoutIds.push(setTimeout(() => this.shareItems[index].copied = false, 1800));
     });
   }
-  
-  private setCreatingMode() {
-    return this.quote.description === '' && !this.quote.addedDate && this.quote.id === '';
-  }
 
   public changeFavorites() {
     this.quote.isFavorite = !this.quote.isFavorite;
@@ -115,16 +111,17 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
       this.timeoutIds.push(setTimeout(() => this.newDescription = this.quote.description, 1500));
       return;
     }
-    this.changeEditMode();
+    this.isEditMode = !this.isEditMode;
 
     this.quote.description = this.newDescription;
     this.quote.author = this.newAuthor === '' ? 'Anonymous' : this.newAuthor;
     this.quote.author_slug = this.quote.author.toLowerCase().replace(' ', '-');
 
-    if(this.isCreatingMode) {
+    if(this.isCreatingMode()) {
       this.quote.addedDate = new Date();
       this.quote.generateQuoteId();
       this._quotesService.saveQuote(this.quote);
+      this._quotesService.isCreatingMode.set(false);
       return;
     }
 
@@ -133,5 +130,9 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
 
   public changeEditMode() {
     this.isEditMode = !this.isEditMode;
+
+    if(this.isCreatingMode()) {
+      this._quotesService.isCreatingMode.set(false);
+    }
   }
 }
