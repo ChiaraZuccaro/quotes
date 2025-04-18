@@ -7,17 +7,19 @@
     <input (input)="filterBy('typed')" [(ngModel)]="filters.typed" type="text" class="items" placeholder="Type quote or author ...">
     <span (click)="filters.favorites = !filters.favorites; filterBy('fav')" class="items">Show favorites only</span>
     
-    <div class="items" [class.show]="openedAccordion.includes('author')">
-      <span class="accordion_title" (click)="manageAccordion('author')">
-        Authors
-        <span class="icon icon-cheveron-outline-{{openedAccordion.includes('author') ? 'up' : 'down'}}"></span>
-      </span>
-      <div class="accordion_content" [class.show_content]="openedAccordion.includes('author')">
-        @for (author of filters.authors; track $index) {
-          <span class="pill" [class.full]="selectedAuthors.includes(author)" (click)="manageSelection(author,'author')">{{author}}</span>
-        }
+    @if(filters.authors.length > 0) {
+      <div class="items" [class.show]="openedAccordion.includes('author')">
+        <span class="accordion_title" (click)="manageAccordion('author')">
+          Authors
+          <span class="icon icon-cheveron-outline-{{openedAccordion.includes('author') ? 'up' : 'down'}}"></span>
+        </span>
+        <div class="accordion_content" [class.show_content]="openedAccordion.includes('author')">
+          @for (author of filters.authors; track $index) {
+            <span class="pill" [class.full]="selectedAuthors.includes(author)" (click)="manageSelection(author,'author')">{{author}}</span>
+          }
+        </div>
       </div>
-    </div>
+    }
 
     @if(filters.categories.length > 0) {
       <div class="items" [class.show]="openedAccordion.includes('category')">
