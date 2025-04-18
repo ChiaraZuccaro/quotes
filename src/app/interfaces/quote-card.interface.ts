@@ -13,3 +13,15 @@ export interface ShareLink {
   link: string,
   hasText: boolean
 }
+
+// CONFIGS
+export interface Btns {
+  id: number,
+  icon: string,
+  clickFn?: () => void,
+}
+export interface BaseConfig {
+  hasSocialEnable: boolean,
+  hasDate: boolean,
+  btns: Btns[],
+}
