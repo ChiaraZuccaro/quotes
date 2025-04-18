@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, Injectable, signal, WritableSignal } from '@angular/core';
 import { Quote } from '@entity/Quote.class';
-import { GeneralResp, QuoteResp } from '@interfaces/quotes-resp.interface';
+import { RandomResp, QuoteResp, ListResp } from '@interfaces/quotes-resp.interface';
 import { map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -44,18 +44,19 @@ export class QuotesService {
   public getRandomQuote() {
     const url = `${this.baseUri}/random`;
     
-    return this._http.get<GeneralResp>(url).pipe(map(res => {
+    return this._http.get<RandomResp>(url).pipe(map(res => {
       if(res.error) { throw new Error(res.message) }
-      return new Quote(res.result);
+      return new Quote(res.result[0]);
     }));
   }
 
-  private getTagsList() {
+  public getListExplore() {
+    const url = `${this.baseUri}/list`;
 
-  }
-
-  public getUserList() {
-    
+    return this._http.get<ListResp>(url).pipe(map(res => {
+      if(res.error) { throw new Error(res.message) }
+      return res.result.results.map(qt => new Quote(qt));
+    }))
   }
   //#endregion
 
@@ -70,6 +71,15 @@ export class QuotesService {
     } else { console.warn('Quote already inserted!') }
   }
 
+  public editQuote(quote: Quote) {
+    const indexQuote = this.quotes().findIndex(qt => qt.id === quote.id);
+    if(indexQuote !== -1) {
+      const copyList = structuredClone(this.quotes());
+      copyList[indexQuote] = quote;
+      this.quotes.set(copyList);
+    } else { throw new Error('Somehow Quote was not found!') }
+  }
+
   public deleteQuote(quoteId: string) {
     const copyList = structuredClone(this.quotes());
     const indexQuote = copyList.findIndex(qt => qt.id.includes(quoteId));
@@ -77,7 +87,7 @@ export class QuotesService {
       copyList.splice(indexQuote, 1);
       this.quotes.set(copyList);
       this.saveQuotes();
-    } else { console.error('Somehow quote was not finded!') }
+    } else { console.error('Somehow quote was not found!') }
   }
   //#endregion
 }

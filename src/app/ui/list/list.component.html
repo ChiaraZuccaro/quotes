@@ -8,7 +8,7 @@
       <div class="stats">
         <span>Showing {{ resortList().length }} quote{{ resortList().length === 1 ? '' : 's' }}</span>
 
-        @if(resortList().length > 1) {
+        @if(resortList().length > 1 && !isExplorePage) {
           <button (click)="deleteAllQuotes()" class="btn_error">
             <span class="icon icon-trash"></span>
             <span>Delete All</span>

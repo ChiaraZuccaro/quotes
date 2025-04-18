@@ -9,9 +9,25 @@ export interface QuoteResp {
   _id: string
 }
 
+export interface ExploreList {
+  count: number,
+  totalCount: number,
+  page: number,
+  totalPages: number,
+  lastItemIndex: number,
+  results: QuoteResp[]
+}
+
 export interface GeneralResp {
   code: number,
   error: boolean,
   message: string,
-  result: QuoteResp
+}
+
+export interface RandomResp extends GeneralResp {
+  result: QuoteResp[]
+}
+
+export interface ListResp extends GeneralResp {
+  result: ExploreList
 }

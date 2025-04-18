@@ -1,8 +1,9 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { Quote } from '@entity/Quote.class';
 import { QuoteCardComponent } from '../quote-card/quote-card.component';
 import { QuotesService } from '@services/quotes.service';
 import { FiltersComponent } from '../filters/filters.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'list',
@@ -10,13 +11,19 @@ import { FiltersComponent } from '../filters/filters.component';
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss'
 })
-export class ListComponent {
+export class ListComponent implements OnInit {
+  private _route = inject(ActivatedRoute);
   private _quotesService = inject(QuotesService);
 
+  public isExplorePage = false;
   public resortList = computed(() => {
     this._quotesService.updateListTrigger();
     return [...this._quotesService.quotes()].sort(this.sortRulesList);
   });
+
+  ngOnInit(): void {
+    this._route.url.subscribe(subUrl => this.isExplorePage = subUrl[0].path === 'explore');
+  }
 
   private sortRulesList(prevQuote: Quote, nextQuote: Quote) {
     // primary priority sort (by Pin property)

@@ -124,7 +124,7 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
       this._quotesService.isCreatingMode.set(false);
       return;
     }
-
+    this._quotesService.editQuote(this.quote());
     this._quotesService.saveQuotes();
   }
 

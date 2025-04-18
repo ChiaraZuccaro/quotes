@@ -54,6 +54,11 @@ input {
   font-family: $primary_font;
 }
 
+.no_quotes {
+  display: block;
+  text-align: center;
+}
+
 .pill {
   border: 1px $gold solid;
   border-radius: .4rem;
