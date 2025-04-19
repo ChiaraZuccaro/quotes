@@ -13,13 +13,14 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ListComponent implements OnInit {
   private _route = inject(ActivatedRoute);
-  private _quotesService = inject(QuotesService);
+  public quotesService = inject(QuotesService);
 
   public list = input.required<Quote[]>();
 
   public isExplorePage = false;
+  public disableCard = computed(() => this.quotesService.userQuotes().some(qt => qt.isEditMode));
   public resortList = computed(() => {
-    this._quotesService.updateListTrigger();
+    this.quotesService.updateListTrigger();
     return [...this.list()].sort(this.sortRulesList);
   });
 
@@ -41,6 +42,6 @@ export class ListComponent implements OnInit {
   public deleteAllQuotes() {
     // delete btn is for user list only
     // TODO Insert a modal to warn the user that this is an irreversible action
-    this._quotesService.userQuotes.set([]);
+    this.quotesService.userQuotes.set([]);
   }
 }

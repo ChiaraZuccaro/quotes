@@ -9,6 +9,7 @@ export class QuotesService {
   // Warning: base uri is a configurated virtual host!
   private readonly baseUri: string = 'http://quotes.local/quote';
   // Card quote
+  public quoteInEditMode = signal<string>('');
   public isCreatingMode = signal(false);
   public updateListTrigger = signal(0);
   public initQuote: QuoteResp = {
@@ -75,6 +76,7 @@ export class QuotesService {
       const copyList = structuredClone(this.userQuotes());
       copyList[indexQuote] = quote;
       this.userQuotes.set(copyList);
+      this.saveQuotes();
     } else { throw new Error('Somehow Quote was not found!') }
   }
 

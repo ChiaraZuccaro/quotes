@@ -35,7 +35,10 @@ export abstract class BaseCard {
   }
 
   protected changeEditMode(quote: Quote) {
+    const activeEdit = quote.isEditMode ? '' : quote.id;
     quote.isEditMode = !quote.isEditMode;
+    this._quotesService.editQuote(quote);
+    this._quotesService.quoteInEditMode.set(activeEdit);
   }
 
   public getConfig(): BaseConfig {

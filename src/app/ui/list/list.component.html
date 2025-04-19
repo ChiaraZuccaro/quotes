@@ -16,7 +16,8 @@
         }
       </div>  
       @for (quote of resortList(); track quote.id) {
-        <quote-card [quote]="quote" [type]="isExplorePage ? 'explore_list' : 'user_list'"></quote-card>
+        <quote-card [class.disable]= "quote.id !== quotesService.quoteInEditMode() && disableCard()"
+        [quote]="quote" [type]="isExplorePage ? 'explore_list' : 'user_list'"></quote-card>
       }
     } @else {
       @if(isExplorePage) {

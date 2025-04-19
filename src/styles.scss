@@ -54,6 +54,11 @@ input {
   font-family: $primary_font;
 }
 
+.disable {
+  pointer-events: none;
+  opacity: .5;
+}
+
 .no_quotes {
   display: block;
   text-align: center;
