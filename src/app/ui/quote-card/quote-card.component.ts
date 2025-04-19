@@ -26,31 +26,31 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
   public shareItems: ShareItem[] = [{
     copied: false,
     icon: 'icon-clipboard',
-    fn: (quote, $index) => this.copyQuote(quote, $index),
+    fn: this.copyQuote.bind(this),
     name: 'copy'
   },
   {
     copied: false,
     icon: 'icon-whatsapp',
-    fn: (quote, $index) => this.shareLink(quote, $index),
+    fn: this.shareLink.bind(this),
     name: 'whatsapp'
   },
   {
     copied: false,
     icon: 'icon-facebook',
-    fn: (quote, $index) => this.shareLink(quote, $index),
+    fn: this.shareLink.bind(this),
     name: 'facebook'
   },
   {
     copied: false,
     icon: 'icon-linkedin',
-    fn: (quote, $index) => this.shareLink(quote, $index),
+    fn: this.shareLink.bind(this),
     name: 'linkedin'
   },
   {
     copied: false,
     icon: 'icon-x',
-    fn: (quote, $index) => this.shareLink(quote, $index),
+    fn: this.shareLink.bind(this),
     name: 'x'
   }];
 
@@ -76,7 +76,7 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
     this.config = new configInstance(this._quotesService).getConfig();
   }
 
-  private shareLink(quote: Quote, index: number) {
+  private shareLink(index: number) {
     const shareItem = this.shareItems[index];
     const config = SHARE_SOCIAL[shareItem.name];
 
@@ -85,15 +85,15 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
     let shareUrl = config.link + encodeURIComponent(origin);
 
     if(config.hasText) {
-      shareUrl = config.link + encodeURIComponent(`${quote.description}\n(Author: ${quote.author})`);
-    } else { this.copyQuote(quote, index) }
+      shareUrl = config.link + encodeURIComponent(`${this.quote().description}\n(Author: ${this.quote().author})`);
+    } else { this.copyQuote(index) }
 
     window.open(shareUrl, '_blank', 'width=700,height=500');
   }
 
-  private copyQuote(quote: Quote, index: number) {
+  private copyQuote(index: number) {
     this.shareItems[index].copied = true;
-    const formatText = `${quote.description}\n(Author: ${quote.author})`;
+    const formatText = `${this.quote().description}\n(Author: ${this.quote().author})`;
     navigator.clipboard.writeText(formatText).then(() => {
       this.timeoutIds.push(setTimeout(() => this.shareItems[index].copied = false, 1800));
     });
