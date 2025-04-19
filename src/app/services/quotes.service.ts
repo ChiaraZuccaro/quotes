@@ -34,6 +34,8 @@ export class QuotesService {
       localStorage.setItem('user_quotes', JSON.stringify(this.userQuotes()));
     }
   });
+  // Pagination
+  // ....
 
   constructor(
     private _http: HttpClient

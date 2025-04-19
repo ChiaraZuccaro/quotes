@@ -1,13 +1,13 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { Quote } from '@entity/Quote.class';
 import { QuotesService } from '@services/quotes.service';
 import { catchError, finalize, throwError } from 'rxjs';
 import { ListComponent } from 'src/app/ui/list/list.component';
+import { PaginationComponent } from 'src/app/ui/pagination/pagination.component';
 
 @Component({
   selector: 'explore',
-  imports: [ ListComponent, RouterLink ],
+  imports: [ ListComponent, PaginationComponent ],
   templateUrl: './explore.component.html',
   styleUrl: './explore.component.scss'
 })
