@@ -66,6 +66,8 @@ export class QuotesService {
   public getListUser() {
     const raw = JSON.parse(localStorage.getItem('user_quotes') || '[]');
     const finalList: Quote[] = raw.map((qt: Quote) => Quote.createFakingResp(qt));
+    // in user list we don't need isAlreadySaved
+    finalList.forEach(qt => qt.isAlreadySaved = false);
     const qtInEdit = finalList.find(qt => qt.isEditMode);
     if(qtInEdit) this.quoteInEditMode.set(qtInEdit.id);
     this.userQuotes.set(finalList);
