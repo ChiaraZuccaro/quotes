@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, computed, inject, input, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Quote } from '@entity/Quote.class';
 import { BaseConfig, ConfigType, ShareItem } from '@interfaces/quote-card.interface';
@@ -20,8 +20,6 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
   public isCreatingMode = computed(() => this._quotesService.isCreatingMode());
   public newDescription: string;
   public newAuthor: string;
-
-  public config: BaseConfig;
 
   public shareItems: ShareItem[] = [{
     copied: false,
@@ -55,25 +53,25 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
   }];
 
   public quote = input.required<Quote>();
-  public type = input.required<ConfigType>();
+  public originalType = input.required<ConfigType>();
+  public config = computed<BaseConfig>(() => {
+    const type = this.quote().configType?.(); // safe access
+    if (!type) throw new Error('Missing quote type!');
+    const configInstance = ConfigCard[type];
+    if (!configInstance) throw new Error('Config not finded!');
+    return new configInstance(this._quotesService).getConfig();
+  });
 
   ngOnInit(): void {
-    this.setConfig();
-    
+    this.quote().configType = signal<ConfigType>(this.originalType());
     this.quote().isEditMode = this.isCreatingMode();
+    
     this.newDescription = this.quote().description;
     this.newAuthor = this.quote().author;
   }
 
   ngOnDestroy(): void {
     this.timeoutIds.forEach(id => clearTimeout(id));
-  }
-
-  private setConfig() {
-    const configInstance = ConfigCard[this.type()];
-    if(!configInstance) throw new Error('Config not finded!');
-
-    this.config = new configInstance(this._quotesService).getConfig();
   }
 
   private shareLink(index: number) {
@@ -114,38 +112,26 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
     this.quote().areSocialShown = !this.quote().areSocialShown;
   }
 
-  // public delete() {
-  //   this._quotesService.deleteQuote(this.quote().id);
-  // }
-
-  public saveEdit() {
-    if(this.newDescription === '') {
-      this.newDescription = 'You need to write at least one character!';
-      this.timeoutIds.push(setTimeout(() => this.newDescription = this.quote().description, 1500));
-      return;
-    }
-    // this.isEditMode = !this.isEditMode;
-
-    this.quote().description = this.newDescription;
-    this.quote().author = this.newAuthor === '' ? 'Anonymous' : this.newAuthor;
-    this.quote().author_slug = this.quote().author.toLowerCase().replace(' ', '-');
-
-    if(this.isCreatingMode()) {
-      this.quote().addedDate = new Date();
-      this.quote().generateQuoteId();
-      this._quotesService.saveQuote(this.quote());
-      this._quotesService.isCreatingMode.set(false);
-      return;
-    }
-    this._quotesService.editQuote(this.quote());
-    this._quotesService.saveQuotes();
-  }
-
-  // public changeEditMode() {
-  //   this.isEditMode = !this.isEditMode;
-
-  //   // if(this.isCreatingMode()) {
-  //   //   this._quotesService.isCreatingMode.set(false);
+  // public saveEdit() {
+  //   // if(this.quotesService.provEditField.newDescription === '') {
+  //   //   this.quotesService.provEditField.newDescription = 'You need to write at least one character!';
+  //   //   this.timeoutIds.push(setTimeout(() => this.quotesService.provEditField.newDescription = this.quote().description, 1500));
+  //   //   return;
   //   // }
+  //   // this.isEditMode = !this.isEditMode;
+
+  //   this.quote().description = this._quotesService.provEditField.newDescription;
+  //   this.quote().author = this._quotesService.provEditField.newAuthor === '' ? 'Anonymous' : this._quotesService.provEditField.newAuthor;
+  //   this.quote().author_slug = this.quote().author.toLowerCase().replace(' ', '-');
+
+  //   if(this.isCreatingMode()) {
+  //     this.quote().addedDate = new Date();
+  //     this.quote().generateQuoteId();
+  //     this._quotesService.saveQuote(this.quote());
+  //     this._quotesService.isCreatingMode.set(false);
+  //     return;
+  //   }
+  //   this._quotesService.editQuote(this.quote());
+  //   this._quotesService.saveQuotes();
   // }
 }

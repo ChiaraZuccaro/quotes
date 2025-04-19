@@ -16,7 +16,6 @@ export class EditCard extends BaseCard {
   }
 
   private saveEdit(quote: Quote) {
-
   }
 
   protected override setFnsBtns(): void {

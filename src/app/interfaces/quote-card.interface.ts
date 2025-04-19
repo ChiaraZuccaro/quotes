@@ -5,7 +5,7 @@ export type Socials = 'x' | 'whatsapp' | 'linkedin' | 'facebook' | 'copy';
 
 export interface ShareItem {
   copied: boolean,
-  fn: (quote: Quote, index: number) => void,
+  fn: (index: number) => void,
   icon: string,
   name: Socials
 }
@@ -13,6 +13,11 @@ export interface ShareItem {
 export interface ShareLink {
   link: string,
   hasText: boolean
+}
+
+export interface EditFields {
+  newDescription: string,
+  newAuthor: string
 }
 
 // CONFIGS

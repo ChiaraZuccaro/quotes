@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, Injectable, linkedSignal, signal, WritableSignal } from '@angular/core';
+import { computed, Injectable, signal, WritableSignal } from '@angular/core';
 import { Quote } from '@entity/Quote.class';
+import { EditFields } from '@interfaces/quote-card.interface';
 import { RandomResp, QuoteResp, ListResp } from '@interfaces/quotes-resp.interface';
 import { map } from 'rxjs';
 
@@ -12,6 +13,7 @@ export class QuotesService {
   public quoteInEditMode = signal<string>('');
   public isCreatingMode = signal(false);
   public updateListTrigger = signal(0);
+  public provEditField: EditFields = { newDescription: '', newAuthor: '' };
   public initQuote: QuoteResp = {
     author: '', authorSlug: '',
     content: '', dateAdded: '',
@@ -31,8 +33,7 @@ export class QuotesService {
 
   constructor(
     private _http: HttpClient
-  ) { const raw = JSON.parse(localStorage.getItem('user_quotes') || '[]');
-  this.userQuotes.set(raw.map((qt: Quote) => Quote.createFakingResp(qt)));}
+  ) { this.getListUser() }
 
   public canSaveQuote(quoteId: string): boolean {
     const indexFinded = this.userQuotes().findIndex(quote => quote.id.includes(quoteId));
@@ -57,12 +58,20 @@ export class QuotesService {
       return res.result.results.map(qt => new Quote(qt));
     }));
   }
+
+  public getListUser() {
+    const raw = JSON.parse(localStorage.getItem('user_quotes') || '[]');
+    const finalList: Quote[] = raw.map((qt: Quote) => Quote.createFakingResp(qt));
+    const qtInEdit = finalList.find(qt => qt.isEditMode);
+    if(qtInEdit) this.quoteInEditMode.set(qtInEdit.id);
+    this.userQuotes.set(finalList);
+  }
   //#endregion
 
   //#region user manage
   public saveQuote(quote: Quote) {
     if(this.canSaveQuote(quote.id)) {
-      const actualList = structuredClone(this.userQuotes());
+      const actualList = [ ...this.userQuotes() ];
       quote.setDateSave();
       actualList.push(quote);
       this.userQuotes.set(actualList);
@@ -73,15 +82,15 @@ export class QuotesService {
   public editQuote(quote: Quote) {
     const indexQuote = this.userQuotes().findIndex(qt => qt.id === quote.id);
     if(indexQuote !== -1) {
-      const copyList = structuredClone(this.userQuotes());
-      copyList[indexQuote] = quote;
+      const copyList = [ ...this.userQuotes()];
+      copyList[indexQuote] = Quote.createFakingResp(quote);
       this.userQuotes.set(copyList);
       this.saveQuotes();
     } else { throw new Error('Somehow Quote was not found!') }
   }
 
   public deleteQuote(quoteId: string) {
-    const copyList = structuredClone(this.userQuotes());
+    const copyList = [ ...this.userQuotes() ];
     const indexQuote = copyList.findIndex(qt => qt.id.includes(quoteId));
     if(indexQuote !== -1) {
       copyList.splice(indexQuote, 1);

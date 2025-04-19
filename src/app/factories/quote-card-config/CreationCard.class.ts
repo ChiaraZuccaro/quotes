@@ -16,7 +16,16 @@ export class CreationCard extends BaseCard {
   }
 
   private saveNewQuote(quote: Quote) {
-    // quote
+    // if(this.canProceed(quote)) {
+      // quote.description = this._quotesService.provEditField.newDescription;
+      // quote.author = this._quotesService.provEditField.newAuthor === '' ? 'Anonymous' : this._quotesService.provEditField.newAuthor;
+      // quote.author_slug = quote.author.toLowerCase().replace(' ', '-');
+      // quote.addedDate = new Date();
+      // quote.generateQuoteId();
+      // quote.isEditMode = false;
+      // this._quotesService.saveQuote(quote);
+      // this.closeCreateMode();
+    // }
   }
 
   private closeCreateMode() {

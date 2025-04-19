@@ -34,11 +34,23 @@ export abstract class BaseCard {
     this.btns = filterBtns.map(bt => ({ ...bt, clickFn: btnsByKey[bt.id] }));
   }
 
+  protected canProceed(quote: Quote) {
+    if(this._quotesService.provEditField.newDescription === '') {
+      this._quotesService.provEditField.newDescription = 'You need to write at least one character!';
+      setTimeout(() => this._quotesService.provEditField.newDescription = quote.description, 1500)
+      // this.timeoutIds.push(setTimeout(() => this._quotesService.provEditField.newDescription = quote.description, 1500));
+      return false;
+    }
+    return true;
+  }
+
   protected changeEditMode(quote: Quote) {
     const activeEdit = quote.isEditMode ? '' : quote.id;
     quote.isEditMode = !quote.isEditMode;
-    this._quotesService.editQuote(quote);
+
+    this._quotesService.editQuote(quote); // to save editMode property
     this._quotesService.quoteInEditMode.set(activeEdit);
+    quote.configType.set(quote.isEditMode ? 'edit' : 'user_list');
   }
 
   public getConfig(): BaseConfig {

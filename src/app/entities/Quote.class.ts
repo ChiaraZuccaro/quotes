@@ -1,3 +1,5 @@
+import { signal, WritableSignal } from "@angular/core";
+import { ConfigType } from "@interfaces/quote-card.interface";
 import { QuoteResp } from "@interfaces/quotes-resp.interface";
 import { getRandomString } from "@utils/methods";
 
@@ -15,6 +17,7 @@ export class Quote {
   public areSocialShown: boolean = false;
   public isEditMode: boolean = false;
   public isAlreadySaved: boolean = false;
+  public configType: WritableSignal<ConfigType> = signal('user_list');
   
   constructor(quoteResp: QuoteResp) {
     const { content, author, authorSlug, tags, _id } = quoteResp;
@@ -38,9 +41,11 @@ export class Quote {
     };
     const q = new Quote(fakeResp);
     q.addedDate = quote.addedDate;
+    q.isEditMode = quote.isEditMode;
     q.isFavorite = quote.isFavorite;
     q.isPinned = quote.isPinned;
     q.areSocialShown = quote.areSocialShown;
+    q.configType.set(q.isEditMode ? 'edit' : 'user_list');
     return q;
   }
   
