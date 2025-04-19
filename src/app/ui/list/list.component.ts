@@ -22,7 +22,8 @@ export class ListComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this._route.url.subscribe(subUrl => this.isExplorePage = subUrl[0].path === 'explore');
+    this._route.url.subscribe(
+    subUrl => this.isExplorePage = subUrl.length > 0 && subUrl[0].path === 'explore');
   }
 
   private sortRulesList(prevQuote: Quote, nextQuote: Quote) {
@@ -37,6 +38,6 @@ export class ListComponent implements OnInit {
 
   public deleteAllQuotes() {
     // TODO Insert a modal to warn the user that this is an irreversible action
-    this._quotesService.quotes.set([]);
+    // this._quotesService.quotes.set([]);
   }
 }

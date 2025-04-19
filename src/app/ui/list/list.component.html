@@ -16,9 +16,18 @@
         }
       </div>  
       @for (quote of resortList(); track quote.id) {
-        <quote-card [quote]="quote"></quote-card>
+        <quote-card [quote]="quote" [type]="isExplorePage ? 'explore_list' : 'user_list'"></quote-card>
       }
     } @else {
+      @if(isExplorePage) {
+        <div class="no_response">
+          <a routerLink="/" class="pill full">
+            <span class="icon icon-bookmarkcopy2"></span>
+            <span>Go back</span>
+          </a>
+          <span class="no_quotes">No quotes founded!</span>
+        </div>
+      }
       <span>No quotes founded!</span>
     }
   </div>

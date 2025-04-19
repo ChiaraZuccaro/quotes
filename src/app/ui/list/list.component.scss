@@ -28,6 +28,18 @@
         }
       }
     }
+    
+    .no_response {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+
+      .pill {
+        display: inherit;
+        align-items: center;
+        gap: .4rem;
+      }
+    }
   }
 }
 

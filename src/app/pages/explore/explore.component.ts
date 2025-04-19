@@ -16,11 +16,12 @@ export class ExploreComponent implements OnInit {
   public isLoading = signal(true);
 
   ngOnInit(): void {
+    this.quotesService.userQuotes.set([]);
     this.quotesService.getListExplore().pipe(
       catchError(err =>  throwError(() => err)),
       finalize(() => this.isLoading.set(false))
     ).subscribe({
-      next: list => this.quotesService.quotes.set(list),
+      next: list => this.quotesService.exploreQuotes.set(list),
       error: err => console.error(err)
     });
   }

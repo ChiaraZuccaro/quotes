@@ -137,9 +137,6 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
     const findedKey = this.openedAccordion.findIndex(acc => acc.includes(key));
     this.openedAccordion = [];
-    if(findedKey === -1) {
-      this.openedAccordion.push(key);
-    }
-
+    if(findedKey === -1) { this.openedAccordion.push(key); }
   }
 }
