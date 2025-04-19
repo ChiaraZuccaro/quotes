@@ -11,6 +11,8 @@ export class UserListCard extends BaseCard {
     this.setFnsBtns();
     this.hasDate = true;
     this.hasSocialEnable = true;
+    this.hasPinMode = true;
+    this.hasFavMode = true;
   }
 
   private delete(quote: Quote) {

@@ -9,11 +9,14 @@ export class ExploreListCard extends BaseCard {
     super(qService);
     this.createBaseBtns(this.keyType);
     this.setFnsBtns();
-    this.hasDate = false;
+    this.hasDate = true;
     this.hasSocialEnable = true;
+    this.hasPinMode = false;
+    this.hasFavMode = true;
   }
 
   private saveExploredQuote(quote: Quote) {
+    quote.isAlreadySaved = true;
     this._quotesService.saveQuote(quote);
   }
 

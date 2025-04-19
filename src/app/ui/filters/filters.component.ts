@@ -39,7 +39,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
       map(res => res.matches || window.innerWidth < 600), takeUntil(this.$destroy)
     ).subscribe(isMobile => this.showFilters = !isMobile);
 
-    this.copyList = structuredClone(this._quotesService.quotes());
+    // this.copyList = structuredClone(this._quotesService.quotes());
     this.filters = this.createFiltersFrom(this.copyList);
   }
 
@@ -121,7 +121,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
         ) : this.copyList;
       break;
     }
-    this._quotesService.quotes.set(filteredList);
+    // this._quotesService.quotes.set(filteredList);
   }
 
   public openFilters() {

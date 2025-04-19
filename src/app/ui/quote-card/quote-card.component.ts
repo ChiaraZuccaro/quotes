@@ -101,6 +101,7 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
 
   public changeFavorites() {
     this.quote().isFavorite = !this.quote().isFavorite;
+    this._quotesService.saveQuotes();
   }
 
   public changePinned() {

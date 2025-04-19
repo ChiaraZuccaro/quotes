@@ -27,5 +27,7 @@ export interface Btns extends BaseBtn {
 export interface BaseConfig {
   hasSocialEnable: boolean,
   hasDate: boolean,
+  hasPinMode: boolean,
+  hasFavMode: boolean,
   btns: Btns[],
 }

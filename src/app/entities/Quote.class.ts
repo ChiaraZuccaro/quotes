@@ -14,6 +14,7 @@ export class Quote {
   public isPinned: boolean = false;
   public areSocialShown: boolean = false;
   public isEditMode: boolean = false;
+  public isAlreadySaved: boolean = false;
   
   constructor(quoteResp: QuoteResp) {
     const { content, author, authorSlug, tags, _id } = quoteResp;

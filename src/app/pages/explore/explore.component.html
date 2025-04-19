@@ -3,5 +3,9 @@
 </section>
 
 <section id="explore_list">
-  <list></list>
+  @if (isLoading()) {
+    Looking for new quotes ....
+  } @else {
+    <list [list]="quotesService.exploreQuotes()"></list>
+  }
 </section>

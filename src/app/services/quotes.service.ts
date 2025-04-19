@@ -20,19 +20,11 @@ export class QuotesService {
   // List quotes
   public userQuotes: WritableSignal<Quote[]> = signal([]);
   public exploreQuotes: WritableSignal<Quote[]> = signal([]);
-  public quotes = linkedSignal(() => {
-    const userQs = this.userQuotes();
-    const exploreQs = this.exploreQuotes();
-
-    if(userQs.length > 0) { return userQs; }
-    if(exploreQs.length > 0) { return exploreQs; }
-    return [];
-  });
   public saveQuotes = computed(() => {
-    if(this.quotes().length > 0) {
+    if(this.userQuotes().length > 0) {
       // TODO this is going to be replaced by firebase
       localStorage.removeItem('user_quotes');
-      localStorage.setItem('user_quotes', JSON.stringify(this.quotes()));
+      localStorage.setItem('user_quotes', JSON.stringify(this.userQuotes()));
     }
   });
 
@@ -41,8 +33,8 @@ export class QuotesService {
   ) { const raw = JSON.parse(localStorage.getItem('user_quotes') || '[]');
   this.userQuotes.set(raw.map((qt: Quote) => Quote.createFakingResp(qt)));}
 
-  private canSaveQuote(quoteId: string): boolean {
-    const indexFinded = this.quotes().findIndex(quote => quote.id.includes(quoteId));
+  public canSaveQuote(quoteId: string): boolean {
+    const indexFinded = this.userQuotes().findIndex(quote => quote.id.includes(quoteId));
     return indexFinded === -1;
   }
 
@@ -69,7 +61,7 @@ export class QuotesService {
   //#region user manage
   public saveQuote(quote: Quote) {
     if(this.canSaveQuote(quote.id)) {
-      const actualList = structuredClone(this.quotes());
+      const actualList = structuredClone(this.userQuotes());
       quote.setDateSave();
       actualList.push(quote);
       this.userQuotes.set(actualList);
@@ -78,16 +70,16 @@ export class QuotesService {
   }
 
   public editQuote(quote: Quote) {
-    const indexQuote = this.quotes().findIndex(qt => qt.id === quote.id);
+    const indexQuote = this.userQuotes().findIndex(qt => qt.id === quote.id);
     if(indexQuote !== -1) {
-      const copyList = structuredClone(this.quotes());
+      const copyList = structuredClone(this.userQuotes());
       copyList[indexQuote] = quote;
       this.userQuotes.set(copyList);
     } else { throw new Error('Somehow Quote was not found!') }
   }
 
   public deleteQuote(quoteId: string) {
-    const copyList = structuredClone(this.quotes());
+    const copyList = structuredClone(this.userQuotes());
     const indexQuote = copyList.findIndex(qt => qt.id.includes(quoteId));
     if(indexQuote !== -1) {
       copyList.splice(indexQuote, 1);

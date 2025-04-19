@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, input, OnInit } from '@angular/core';
 import { Quote } from '@entity/Quote.class';
 import { QuoteCardComponent } from '../quote-card/quote-card.component';
 import { QuotesService } from '@services/quotes.service';
@@ -15,10 +15,12 @@ export class ListComponent implements OnInit {
   private _route = inject(ActivatedRoute);
   private _quotesService = inject(QuotesService);
 
+  public list = input.required<Quote[]>();
+
   public isExplorePage = false;
   public resortList = computed(() => {
     this._quotesService.updateListTrigger();
-    return [...this._quotesService.quotes()].sort(this.sortRulesList);
+    return [...this.list()].sort(this.sortRulesList);
   });
 
   ngOnInit(): void {
@@ -37,7 +39,8 @@ export class ListComponent implements OnInit {
   }
 
   public deleteAllQuotes() {
+    // delete btn is for user list only
     // TODO Insert a modal to warn the user that this is an irreversible action
-    // this._quotesService.quotes.set([]);
+    this._quotesService.userQuotes.set([]);
   }
 }

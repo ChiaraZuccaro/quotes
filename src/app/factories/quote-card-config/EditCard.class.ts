@@ -11,6 +11,8 @@ export class EditCard extends BaseCard {
     this.setFnsBtns();
     this.hasDate = false;
     this.hasSocialEnable = false;
+    this.hasPinMode = false;
+    this.hasFavMode = false;
   }
 
   private saveEdit(quote: Quote) {

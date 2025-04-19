@@ -20,6 +20,8 @@ export abstract class BaseCard {
 
   public hasSocialEnable: boolean;
   public hasDate: boolean;
+  public hasPinMode: boolean;
+  public hasFavMode: boolean;
   public btns: Btns[];
 
   constructor(qService: QuotesService) { this._quotesService = qService }
@@ -40,6 +42,8 @@ export abstract class BaseCard {
     return {
       hasDate: this.hasDate,
       hasSocialEnable: this.hasSocialEnable,
+      hasPinMode: this.hasPinMode,
+      hasFavMode: this.hasFavMode,
       btns: this.btns
     }
   }

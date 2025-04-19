@@ -1,14 +1,18 @@
 <article [id]="quote().id" class="quote">
-  <div class="header" [class.disable]="quote().isEditMode">
+  <div class="header">
     <div class="header_left">
-      <button (click)="changeFavorites()" class="fav color_primary" [class.is-fav]="quote().isFavorite">
+      <button (click)="changeFavorites()" class="fav color_primary"
+        [class.is-fav]="quote().isFavorite"
+        [class.disable]="!config.hasFavMode">
         <span class="icon icon-heart"></span>
       </button>
-      <button (click)="changePinned()" class="pin color_primary" [class.is-pin]="quote().isPinned">
+      <button (click)="changePinned()" class="pin color_primary"
+        [class.is-pin]="quote().isPinned"
+        [class.disable]="!config.hasPinMode">
         <span class="icon icon-pin"></span>
       </button>
     </div>
-    <div class="header_right">
+    <div class="header_right" [class.disable]="!config.hasSocialEnable">
       <div class="socials" [class.show]="quote().areSocialShown">
         @for (share of shareItems; track $index) {
           <button class="color_primary" (click)="share.fn(quote(), $index)">
@@ -51,7 +55,7 @@
       </p>
 
       @for (btn of config.btns; track $index) {
-        <button (click)="btn.clickFn(quote())" class="ctas">
+        <button (click)="btn.clickFn(quote())" class="ctas" [class.disable]="quote().isAlreadySaved">
           <span class="icon {{btn.icon}}"></span>
         </button>
       }
