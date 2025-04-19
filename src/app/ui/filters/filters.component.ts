@@ -1,6 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, input, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Quote } from '@entity/Quote.class';
 import { Filters } from '@interfaces/filters.interface';
 import { QuotesService } from '@services/quotes.service';
@@ -19,15 +20,21 @@ type FiltersType = 'fav' | 'author' | 'typed' | 'category';
 // filter by typed string
 // filter by author
 export class FiltersComponent implements OnInit, OnDestroy {
+  private _route = inject(ActivatedRoute);
   private _quotesService = inject(QuotesService);
   private _breakpointObserver = inject(BreakpointObserver);
 
   private $destroy = new Subject();
 
   private copyList: Quote[];
+  public startList = input.required<Quote[]>();
   
   public filters: Filters;
-  public showFilters = false;
+  public appliedFilters: Filters;
+
+  public showFilters: boolean = false;
+  public isExplorePage: boolean;
+  public isSomeFilterApplied = false;
 
   public selectedAuthors: string[] = [];
   public selectedCategories: string[] = [];
@@ -35,12 +42,15 @@ export class FiltersComponent implements OnInit, OnDestroy {
   public openedAccordion: string[] = [];
 
   ngOnInit(): void {
+    this._route.url.subscribe(subUrl => this.isExplorePage = subUrl.length > 0 && subUrl[0].path === 'explore');
+
     this._breakpointObserver.observe([Breakpoints.Handset]).pipe(
       map(res => res.matches || window.innerWidth < 600), takeUntil(this.$destroy)
     ).subscribe(isMobile => this.showFilters = !isMobile);
 
-    // this.copyList = structuredClone(this._quotesService.quotes());
+    this.copyList = [ ...this.startList() ];
     this.filters = this.createFiltersFrom(this.copyList);
+    this.appliedFilters = structuredClone(this._quotesService.initFilters);
   }
 
   ngOnDestroy(): void {
@@ -82,6 +92,20 @@ export class FiltersComponent implements OnInit, OnDestroy {
     }
   }
 
+  private applyFilters() {
+    const { favorites: filtFav, typed: filtType, authors: filAuths, categories: filCats } = this.appliedFilters;
+    const filterQuotes = this.copyList.filter(qt => {
+      const matchTyped = qt.description.toLowerCase().replace(' ', '-').includes(filtType) || qt.author_slug.includes(filtType);
+      const matchFav = filtFav ? qt.isFavorite : true;
+      const matchAuthor = filAuths.length === 0 || filAuths.includes(qt.author);
+      const matchCategory = filCats.length === 0 || qt.categories.some(cat => filCats.includes(cat));
+
+      return matchTyped && matchFav && matchAuthor && matchCategory;
+    });
+    const listToSet = this.isSomeFilterApplied ? filterQuotes : this.copyList;
+    this._quotesService.userQuotes.set(listToSet);
+  }
+
   public manageSelection(itemToAdd: string, type: 'author' | 'category') {
     switch(type) {
       case 'author':
@@ -100,28 +124,31 @@ export class FiltersComponent implements OnInit, OnDestroy {
   }
 
   public filterBy(type: FiltersType) {
-    let filteredList: Quote[] = [];
     switch(type) {
       case 'fav':
-        filteredList = this.filters.favorites ? this.copyList.filter(copyQuote => copyQuote.isFavorite) : this.copyList;
+        this.appliedFilters.favorites = this.filters.favorites;
       break;
       case 'author':
-        filteredList = this.selectedAuthors.length > 0 ? this.copyList.filter(copyQuote => this.selectedAuthors.includes(copyQuote.author)) : this.copyList;
+        this.appliedFilters.authors = [...this.selectedAuthors];
       break;
       case 'typed':
-        const normalizedTyped = this.filters.typed.toLowerCase().replace(' ', '-');
-        filteredList = this.copyList.filter(copyQuote =>
-          copyQuote.description.toLowerCase().replace(' ', '-').includes(normalizedTyped) ||
-          copyQuote.author_slug.includes(normalizedTyped)
-        );
+        this.appliedFilters.typed = this.filters.typed.toLowerCase().replace(' ', '-');
       break;
       case 'category':
-        filteredList = this.selectedCategories.length > 0 ? this.copyList.filter(
-          copyQuote => copyQuote.categories.some(cat => this.selectedCategories.includes(cat))
-        ) : this.copyList;
+        this.appliedFilters.categories = [...this.selectedCategories];
       break;
     }
-    // this._quotesService.quotes.set(filteredList);
+    this.isSomeFilterApplied = JSON.stringify(this.appliedFilters) !== JSON.stringify(this._quotesService.initFilters);
+    this.applyFilters();
+  }
+
+  public resetFilters() {
+    this.appliedFilters = structuredClone(this._quotesService.initFilters);
+    this.selectedAuthors = [];
+    this.selectedCategories = [];
+    this.openedAccordion = [];
+    this.isSomeFilterApplied = false;
+    this._quotesService.userQuotes.set(this.copyList);
   }
 
   public openFilters() {

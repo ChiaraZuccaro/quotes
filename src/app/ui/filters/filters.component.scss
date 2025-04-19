@@ -8,15 +8,22 @@
         margin-top: .5rem;
         display: flex;
         flex-direction: column;
-        gap: .5rem;
 
         .items {
+          cursor: pointer;
           font-size: .9rem;
           border-bottom: var(--gold) 1px solid;
-          padding: .4rem;
+          padding: .8rem;
+
+          &.active {
+            background-color: var(--gold);
+            color: var(--primary-color);
+            border-bottom-left-radius: .3rem;
+            border-bottom-right-radius: .3rem;
+          }
 
           &:last-child {
-            margin-bottom: .5rem;
+            margin-bottom: .8rem;
           }
 
           .accordion {
@@ -35,7 +42,7 @@
 
             .accordion_content {
               &.show_content {
-                margin-top: .4rem;
+                margin-top: .8rem;
                 display: flex;
                 flex-flow: row wrap;
                 column-gap: .8rem;
@@ -63,13 +70,28 @@
     width: 100%;
     display: inline-flex;
     align-items: center;
-    justify-content: start;
-    gap: .4rem;
+    justify-content: space-between;
+
+    .text {
+      padding: .2rem 0;
+      display: inherit;
+      gap: .4rem;
+    }
+
+    .pill {
+      cursor: pointer;
+      position: relative;
+      color: var(--gold);
+      z-index: 2;
+
+      &:hover {
+        background-color: var(--gold);
+        color: var(--primary-color);
+      }
+    }
   }
   
-  &_actual {
-    display: none;
-  }
+  &_actual { display: none; }
 }
 
 @media(min-width: 1100px) {
@@ -80,10 +102,12 @@
       &.open {
         .filters_actual {
           margin-top: 1rem;
-          gap: 1rem;
           
           .items {
+            padding: 1.1rem;
             font-size: 1rem;
+
+            &::placeholder { font-size: 1rem; }
 
             .accordion_content {
               font-size: .8rem;
@@ -94,7 +118,7 @@
     }
 
     &_head {
-      pointer-events: none;
+      .text { pointer-events: none; }
     }
   }
 }

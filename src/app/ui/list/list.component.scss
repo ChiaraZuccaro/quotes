@@ -4,10 +4,7 @@
   flex-direction: column;
   gap: 1rem;
 
-  .filters {
-    cursor: pointer;
-    user-select: none;
-  }
+  .filters { user-select: none; }
 
   .quotes {
     display: flex;
@@ -28,7 +25,7 @@
         }
       }
     }
-    
+
     .no_response {
       display: inline-flex;
       align-items: center;

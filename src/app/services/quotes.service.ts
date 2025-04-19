@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, Injectable, signal, WritableSignal } from '@angular/core';
 import { Quote } from '@entity/Quote.class';
+import { Filters } from '@interfaces/filters.interface';
 import { RandomResp, QuoteResp, ListResp } from '@interfaces/quotes-resp.interface';
 import { map } from 'rxjs';
 
@@ -8,6 +9,11 @@ import { map } from 'rxjs';
 export class QuotesService {
   // Warning: base uri is a configurated virtual host!
   private readonly baseUri: string = 'http://quotes.local/quote';
+  // Filters
+  public initFilters: Filters = {
+    typed: '', favorites: false,
+    authors: [], categories: []
+  };
   // Card quote
   public quoteInEditMode = signal<string>('');
   public isCreatingMode = signal(false);

@@ -1,11 +1,18 @@
 <div class="filters_wrap bg_primary color_gold" [class.open]="showFilters">
-  <div (click)="openFilters()" class="filters_head color_gold">
-    <span class="icon icon-filter"></span>
-    <span>Filter by ...</span>
+  <div class="filters_head color_gold">
+    <div (click)="openFilters()" class="text">
+      <span class="icon icon-filter"></span>
+      <span>Filter by ...</span>
+    </div>
+    @if(isSomeFilterApplied) {
+      <button (click)="resetFilters()" class="pill">
+        <span>Reset</span>
+      </button>
+    }
   </div>
   <div class="filters_actual">
     <input (input)="filterBy('typed')" [(ngModel)]="filters.typed" type="text" class="items" placeholder="Type quote or author ...">
-    <span (click)="filters.favorites = !filters.favorites; filterBy('fav')" class="items">Show favorites only</span>
+    <span (click)="filters.favorites = !filters.favorites; filterBy('fav')" class="items" [class.active]="appliedFilters.favorites">Show favorites only</span>
     
     @if(filters.authors.length > 0) {
       <div class="items" [class.show]="openedAccordion.includes('author')">

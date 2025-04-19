@@ -4,9 +4,5 @@
 </section>
 
 <section id="user_list">
-  @if (quoteService.userQuotes().length > 0) {
-    <list [list]="quoteService.userQuotes()"></list>
-  } @else {
-    <span class="no_quotes">It seem you don't have any quote saved :/</span>
-  }
+  <list [list]="quoteService.userQuotes()"></list>
 </section>
