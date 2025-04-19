@@ -2,8 +2,9 @@ import { DatePipe } from '@angular/common';
 import { Component, computed, inject, input, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Quote } from '@entity/Quote.class';
-import { ShareItem } from '@interfaces/quote-card.interface';
+import { BaseConfig, ConfigType, ShareItem } from '@interfaces/quote-card.interface';
 import { QuotesService } from '@services/quotes.service';
+import { ConfigCard } from '@utils/quote-card-configs';
 import { SHARE_SOCIAL } from '@utils/social-links';
 
 @Component({
@@ -16,10 +17,11 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
   private _quotesService = inject(QuotesService);
   private timeoutIds: ReturnType<typeof setTimeout>[] = [];
 
-  public isEditMode: boolean = false;
   public isCreatingMode = computed(() => this._quotesService.isCreatingMode());
   public newDescription: string;
   public newAuthor: string;
+
+  public config: BaseConfig;
 
   public shareItems: ShareItem[] = [{
     copied: false,
@@ -53,15 +55,25 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
   }];
 
   public quote = input.required<Quote>();
+  public type = input.required<ConfigType>();
 
   ngOnInit(): void {
-    this.isEditMode = this.isCreatingMode();
+    this.setConfig();
+    
+    this.quote().isEditMode = this.isCreatingMode();
     this.newDescription = this.quote().description;
     this.newAuthor = this.quote().author;
   }
 
   ngOnDestroy(): void {
     this.timeoutIds.forEach(id => clearTimeout(id));
+  }
+
+  private setConfig() {
+    const configInstance = ConfigCard[this.type()];
+    if(!configInstance) throw new Error('Config not finded!');
+
+    this.config = new configInstance(this._quotesService).getConfig();
   }
 
   private shareLink(quote: Quote, index: number) {
@@ -101,9 +113,9 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
     this.quote().areSocialShown = !this.quote().areSocialShown;
   }
 
-  public delete() {
-    this._quotesService.deleteQuote(this.quote().id);
-  }
+  // public delete() {
+  //   this._quotesService.deleteQuote(this.quote().id);
+  // }
 
   public saveEdit() {
     if(this.newDescription === '') {
@@ -111,7 +123,7 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
       this.timeoutIds.push(setTimeout(() => this.newDescription = this.quote().description, 1500));
       return;
     }
-    this.isEditMode = !this.isEditMode;
+    // this.isEditMode = !this.isEditMode;
 
     this.quote().description = this.newDescription;
     this.quote().author = this.newAuthor === '' ? 'Anonymous' : this.newAuthor;
@@ -128,11 +140,11 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
     this._quotesService.saveQuotes();
   }
 
-  public changeEditMode() {
-    this.isEditMode = !this.isEditMode;
+  // public changeEditMode() {
+  //   this.isEditMode = !this.isEditMode;
 
-    if(this.isCreatingMode()) {
-      this._quotesService.isCreatingMode.set(false);
-    }
-  }
+  //   // if(this.isCreatingMode()) {
+  //   //   this._quotesService.isCreatingMode.set(false);
+  //   // }
+  // }
 }

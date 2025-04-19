@@ -1,5 +1,6 @@
 import { Quote } from "@entity/Quote.class";
 
+export type ConfigType = 'creation' | 'edit' | 'user_list' | 'explore_list';
 export type Socials = 'x' | 'whatsapp' | 'linkedin' | 'facebook' | 'copy';
 
 export interface ShareItem {
@@ -15,10 +16,13 @@ export interface ShareLink {
 }
 
 // CONFIGS
-export interface Btns {
+export interface BaseBtn {
   id: number,
   icon: string,
-  clickFn?: () => void,
+}
+
+export interface Btns extends BaseBtn {
+  clickFn: (quote: Quote) => void,
 }
 export interface BaseConfig {
   hasSocialEnable: boolean,

@@ -1,11 +1,14 @@
-import { ClassCardConfig } from "@entity/CardFactory.class";
-import { BaseConfig } from "@interfaces/quote-card.interface";
+import { BaseCard } from "@factories/quote-card-config/BaseCard.class";
+import { CreationCard } from "@factories/quote-card-config/CreationCard.class";
+import { EditCard } from "@factories/quote-card-config/EditCard.class";
+import { ExploreListCard } from "@factories/quote-card-config/ExploreListCard.class";
+import { UserListCard } from "@factories/quote-card-config/UserListCard.class";
+import { ConfigType } from "@interfaces/quote-card.interface";
+import { QuotesService } from "@services/quotes.service";
 
-export type ConfigType = 'creation' | 'edit' | 'user_list' | 'explore_list';
-
-export const ConfigCard: Record<ConfigType, () => BaseConfig> = {
-  creation: ClassCardConfig.creatingMode,
-  edit: ClassCardConfig.editMode,
-  user_list: ClassCardConfig.userList,
-  explore_list: ClassCardConfig.exploreList
+export const ConfigCard: Record<ConfigType, new (qService: QuotesService) => BaseCard> = {
+  creation: CreationCard,
+  edit: EditCard,
+  user_list: UserListCard,
+  explore_list: ExploreListCard
 };

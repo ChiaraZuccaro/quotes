@@ -1,4 +1,97 @@
 <article [id]="quote().id" class="quote">
+  <div class="header" [class.disable]="quote().isEditMode">
+    <div class="header_left">
+      <button (click)="changeFavorites()" class="fav color_primary" [class.is-fav]="quote().isFavorite">
+        <span class="icon icon-heart"></span>
+      </button>
+      <button (click)="changePinned()" class="pin color_primary" [class.is-pin]="quote().isPinned">
+        <span class="icon icon-pin"></span>
+      </button>
+    </div>
+    <div class="header_right">
+      <div class="socials" [class.show]="quote().areSocialShown">
+        @for (share of shareItems; track $index) {
+          <button class="color_primary" (click)="share.fn(quote(), $index)">
+            @if (share.copied) {
+              <span class="icon icon-thumbs-up"></span>
+            } @else {
+              <span class="icon {{share.icon}}"></span>
+            }
+          </button>
+        }
+      </div>
+      <button (click)="showSocials()" class="share color_primary" [class.open]="quote().areSocialShown">
+        <span class="icon icon-share-alt"></span>
+      </button>
+    </div>
+  </div>
+
+  @if(!quote().isEditMode) { <hr> }
+
+  <div class="descr">
+    @if(quote().isEditMode) {
+      <textarea [(ngModel)]="newDescription" class="italic" name="quote_descr"
+      >{{ quote().description }}</textarea>
+    } @else { <p class="italic">{{ quote().description }}</p> }
+  </div>
+
+  @if(!quote().isEditMode) { <hr> }
+
+  <div class="footer">
+    @if(quote().isEditMode) {
+      <input class="edit_author" [(ngModel)]="newAuthor" type="text" name="quote_author" [placeholder]="quote().author">
+    } @else { <span>{{ quote().author }}</span> }
+
+    <div class="feat">
+      <p class="feat__time" [class.disable]="quote().isEditMode">
+        <span class="icon icon-time"></span>
+        @if(quote().addedDate) {
+          {{ quote().addedDate | date: 'dd/MM/YYYY \'at\' HH:mm' }}
+        } @else { --/--/---- at --:-- }
+      </p>
+
+      @for (btn of config.btns; track $index) {
+        <button (click)="btn.clickFn(quote())" class="ctas">
+          <span class="icon {{btn.icon}}"></span>
+        </button>
+      }
+
+      <!-- <button (click)="isEditMode ? changeEditMode() : delete()" class="ctas">
+        @if(isEditMode) {
+          <span class="icon icon-close"></span>
+        } @else { <span class="icon icon-trash"></span> }
+      </button>
+      <button (click)="isEditMode ? saveEdit() : changeEditMode()" class="ctas">
+        @if(isEditMode) {
+          <span class="icon icon-save-disk"></span>
+        } @else { <span class="icon icon-edit-pencil"></span> }
+      </button> -->
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <article [id]="quote().id" class="quote">
   <div class="header" [class.disable]="isEditMode">
     <div class="header_left">
       <button (click)="changeFavorites()" class="fav color_primary" [class.is-fav]="quote().isFavorite">
@@ -61,4 +154,4 @@
       </button>
     </div>
   </div>
-</article>
+</article> -->

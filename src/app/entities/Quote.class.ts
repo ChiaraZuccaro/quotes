@@ -2,15 +2,18 @@ import { QuoteResp } from "@interfaces/quotes-resp.interface";
 import { getRandomString } from "@utils/methods";
 
 export class Quote {
+  // Data
   public description: string;
   public author: string;
   public author_slug: string;
   public categories: string[];
   public addedDate: Date;
   public id: string;
+  // View manage
   public isFavorite: boolean = false;
   public isPinned: boolean = false;
   public areSocialShown: boolean = false;
+  public isEditMode: boolean = false;
   
   constructor(quoteResp: QuoteResp) {
     const { content, author, authorSlug, tags, _id } = quoteResp;
