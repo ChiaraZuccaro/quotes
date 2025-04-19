@@ -3,11 +3,11 @@ import { Quote } from '@entity/Quote.class';
 import { QuoteCardComponent } from '../quote-card/quote-card.component';
 import { QuotesService } from '@services/quotes.service';
 import { FiltersComponent } from '../filters/filters.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'list',
-  imports: [ QuoteCardComponent, FiltersComponent ],
+  imports: [ QuoteCardComponent, FiltersComponent, RouterLink ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss'
 })

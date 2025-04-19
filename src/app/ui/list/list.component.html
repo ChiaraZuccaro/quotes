@@ -1,6 +1,14 @@
 <section id="list">
   <div class="filters">
     <filters [startList]="list()"></filters>
+    @if(isExplorePage && resortList().length > 0) {
+      <div class="no_response">
+        <a routerLink="/" class="pill full">
+          <span class="icon icon-bookmarkcopy2"></span>
+          <span>Go back</span>
+        </a>
+      </div>
+    }
   </div>
 
   <div class="quotes">

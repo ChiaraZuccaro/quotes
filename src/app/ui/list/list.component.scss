@@ -63,7 +63,7 @@
     .quotes {
       grid-area: quotes;
       width: 85%;
-      margin: 0 auto;
+      justify-self: end;
     }
   }
 }
