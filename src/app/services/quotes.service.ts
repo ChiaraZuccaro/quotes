@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, Injectable, signal, WritableSignal } from '@angular/core';
 import { Quote } from '@entity/Quote.class';
-import { EditFields } from '@interfaces/quote-card.interface';
 import { RandomResp, QuoteResp, ListResp } from '@interfaces/quotes-resp.interface';
 import { map } from 'rxjs';
 
@@ -13,7 +12,6 @@ export class QuotesService {
   public quoteInEditMode = signal<string>('');
   public isCreatingMode = signal(false);
   public updateListTrigger = signal(0);
-  public provEditField: EditFields = { newDescription: '', newAuthor: '' };
   public initQuote: QuoteResp = {
     author: '', authorSlug: '',
     content: '', dateAdded: '',

@@ -16,6 +16,13 @@ export class EditCard extends BaseCard {
   }
 
   private saveEdit(quote: Quote) {
+    if(this.canProceed(quote)) {
+      quote.description = quote.editFields.newDescription;
+      quote.author = quote.editFields.newAuthor === '' ? 'Anonymous' : quote.editFields.newAuthor;
+      quote.author_slug = quote.author.toLowerCase().replace(' ', '-');
+      quote.isEditMode = false;
+      this._quotesService.editQuote(quote);
+    }
   }
 
   protected override setFnsBtns(): void {

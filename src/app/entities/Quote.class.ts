@@ -1,5 +1,5 @@
 import { signal, WritableSignal } from "@angular/core";
-import { ConfigType } from "@interfaces/quote-card.interface";
+import { ConfigType, EditFields } from "@interfaces/quote-card.interface";
 import { QuoteResp } from "@interfaces/quotes-resp.interface";
 import { getRandomString } from "@utils/methods";
 
@@ -17,6 +17,7 @@ export class Quote {
   public areSocialShown: boolean = false;
   public isEditMode: boolean = false;
   public isAlreadySaved: boolean = false;
+  public editFields: EditFields = { newDescription: '', newAuthor: '' };
   public configType: WritableSignal<ConfigType> = signal('user_list');
   
   constructor(quoteResp: QuoteResp) {
@@ -26,6 +27,8 @@ export class Quote {
     this.author_slug = authorSlug;
     this.categories = tags;
     this.id = _id;
+    this.editFields.newAuthor = author;
+    this.editFields.newDescription = content;
   }
 
   public static createFakingResp(quote: Quote) {

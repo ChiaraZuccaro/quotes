@@ -43,5 +43,6 @@ export class ListComponent implements OnInit {
     // delete btn is for user list only
     // TODO Insert a modal to warn the user that this is an irreversible action
     this.quotesService.userQuotes.set([]);
+    localStorage.removeItem('user_quotes');
   }
 }

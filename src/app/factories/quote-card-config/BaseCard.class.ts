@@ -35,9 +35,9 @@ export abstract class BaseCard {
   }
 
   protected canProceed(quote: Quote) {
-    if(this._quotesService.provEditField.newDescription === '') {
-      this._quotesService.provEditField.newDescription = 'You need to write at least one character!';
-      setTimeout(() => this._quotesService.provEditField.newDescription = quote.description, 1500)
+    if(quote.editFields.newDescription === '') {
+      quote.editFields.newDescription = 'You need to write at least one character!';
+      setTimeout(() => quote.editFields.newDescription = quote.description, 1500);
       // this.timeoutIds.push(setTimeout(() => this._quotesService.provEditField.newDescription = quote.description, 1500));
       return false;
     }

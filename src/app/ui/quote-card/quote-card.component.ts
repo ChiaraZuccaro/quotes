@@ -17,10 +17,6 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
   private _quotesService = inject(QuotesService);
   private timeoutIds: ReturnType<typeof setTimeout>[] = [];
 
-  public isCreatingMode = computed(() => this._quotesService.isCreatingMode());
-  public newDescription: string;
-  public newAuthor: string;
-
   public shareItems: ShareItem[] = [{
     copied: false,
     icon: 'icon-clipboard',
@@ -52,6 +48,7 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
     name: 'x'
   }];
 
+  public isCreatingMode = computed(() => this._quotesService.isCreatingMode());
   public quote = input.required<Quote>();
   public originalType = input.required<ConfigType>();
   public config = computed<BaseConfig>(() => {
@@ -63,11 +60,8 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    this.quote().configType = signal<ConfigType>(this.originalType());
+    this.quote().configType.set(this.originalType());
     this.quote().isEditMode = this.isCreatingMode();
-    
-    this.newDescription = this.quote().description;
-    this.newAuthor = this.quote().author;
   }
 
   ngOnDestroy(): void {

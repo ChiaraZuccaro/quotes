@@ -15,17 +15,28 @@ export class CreationCard extends BaseCard {
     this.hasFavMode = false;
   }
 
+  private resetNewQuote(quote: Quote) {
+    quote.description = '';
+    quote.author = '';
+    quote.author_slug = '';
+    quote.isEditMode = true;
+    quote.id = '';
+    quote.editFields = { newDescription: '', newAuthor: '' };
+  }
+
   private saveNewQuote(quote: Quote) {
-    // if(this.canProceed(quote)) {
-      // quote.description = this._quotesService.provEditField.newDescription;
-      // quote.author = this._quotesService.provEditField.newAuthor === '' ? 'Anonymous' : this._quotesService.provEditField.newAuthor;
-      // quote.author_slug = quote.author.toLowerCase().replace(' ', '-');
-      // quote.addedDate = new Date();
-      // quote.generateQuoteId();
-      // quote.isEditMode = false;
-      // this._quotesService.saveQuote(quote);
-      // this.closeCreateMode();
-    // }
+    if(this.canProceed(quote)) {
+      quote.description = quote.editFields.newDescription;
+      quote.author = quote.editFields.newAuthor === '' ? 'Anonymous' : quote.editFields.newAuthor;
+      quote.author_slug = quote.author.toLowerCase().replace(' ', '-');
+      quote.addedDate = new Date();
+      quote.generateQuoteId();
+      quote.isEditMode = false;
+      const qtSave = Quote.createFakingResp(quote);
+      this._quotesService.saveQuote(qtSave);
+      this.resetNewQuote(quote);
+      this.closeCreateMode();
+    }
   }
 
   private closeCreateMode() {
