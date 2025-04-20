@@ -5,6 +5,8 @@
   gap: 1rem;
 
   .go_top {
+    opacity: 0;
+    transition: opacity .5s ease;
     position: fixed;
     bottom: 2rem;
     right: 2rem;
@@ -15,6 +17,8 @@
     user-select: none;
 
     .pill {
+      opacity: 0;
+      transition: opacity .5s ease;
       position: fixed;
       bottom: 2rem;
       z-index: 5;
@@ -57,6 +61,12 @@
     }
   }
 }
+
+.visible {
+  opacity: 1 !important;
+  transition: opacity .3 ease;   
+}
+
 
 @media(min-width: 500px) {
   #list {

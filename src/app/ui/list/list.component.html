@@ -1,11 +1,11 @@
 <section id="list">
-  <button (click)="scrollTop()" class="go_top pill full">
+  <button [class.visible]="isFixVisible()" (click)="scrollTop()" class="go_top pill full">
     <span class="icon icon-arrow-thick-up"></span>
   </button>
   <div class="filters">
     <filters [startList]="list()"></filters>
     @if(isExplorePage && resortList().length > 0) {
-      <a routerLink="/" class="pill full">
+      <a [class.visible]="isFixVisible()" (click)="scrollTop()" routerLink="/" class="pill full">
         <span class="icon icon-bookmarkcopy2"></span>
         <span>Go back</span>
       </a>
