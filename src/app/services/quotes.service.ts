@@ -79,7 +79,8 @@ export class QuotesService {
     if(this.canSaveQuote(quote.id)) {
       const actualList = [ ...this.userQuotes() ];
       quote.setDateSave();
-      actualList.push(quote);
+      const noReferQuote = Quote.createFakingResp(quote);
+      actualList.push(noReferQuote);
       this.userQuotes.set(actualList);
       this.saveQuotes();
     } else { console.warn('Quote already inserted!') }
