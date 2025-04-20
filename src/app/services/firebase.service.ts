@@ -11,8 +11,8 @@ export class FirebaseService {
   private _firestore = inject(Firestore);
 
   private formatQuoteForSave(quote: Quote) {
-    const { author, author_slug, description, addedDate, categories } = quote;
-    return { author, author_slug, description, addedDate, categories };
+    const { author, author_slug, description, addedDate, categories, isFavorite, isPinned } = quote;
+    return { author, author_slug, description, addedDate, categories, isFavorite, isPinned };
   }
 
   public getQuotes(): Observable<FireResp[]> {

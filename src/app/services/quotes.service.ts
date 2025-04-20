@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable, resource, signal, WritableSignal } from '@angular/core';
+import { inject, Injectable, resource, signal, WritableSignal } from '@angular/core';
 import { Quote } from '@entity/Quote.class';
 import { Filters } from '@interfaces/filters.interface';
 import { RandomResp, QuoteResp, ListResp } from '@interfaces/quotes-resp.interface';
-import { map } from 'rxjs';
+import { lastValueFrom, map } from 'rxjs';
 import { FirebaseService } from './firebase.service';
 
 @Injectable({ providedIn: 'root' })
@@ -28,39 +28,36 @@ export class QuotesService {
   };
   // List quotes
   public userQuotes: WritableSignal<Quote[]> = signal([]);
-  public exploreQuotes: WritableSignal<Quote[]> = signal([]);
   public updateListTrigger = signal(0);
-
-  public test = resource({
+  public exploreQuotes: WritableSignal<Quote[]> = signal([]);
+  public listRes = resource({
     request: () => this.updateListTrigger(),
     loader: async () => {
-      this._firestoreService.getQuotes().subscribe(resFire => {
-        const quoteResp: Quote[] = resFire.map(fireQt => Quote.createFromFirebase(fireQt));
-        console.log(quoteResp);
-        this.userQuotes.set(quoteResp);
-      });
+      const fireQuotes = await lastValueFrom(this._firestoreService.getQuotes());
+      const quotes = fireQuotes.map(fireQt => Quote.createFromFirebase(fireQt));
+      this.userQuotes.set(quotes);
     }
   });
 
 
-  public saveQuotes = computed(() => {
-    if(this.userQuotes().length > 0) {
-      const savePromises = this.userQuotes().map(qt => this._firestoreService.addQuote(qt));
+  // public saveQuotes = computed(() => {
+  //   if(this.userQuotes().length > 0) {
+  //     const savePromises = this.userQuotes().map(qt => this._firestoreService.addQuote(qt));
 
-      Promise.all(savePromises).then(res => {
-        console.log(res);
+  //     Promise.all(savePromises).then(res => {
+  //       console.log(res);
         
-        debugger
-      })
-      // TODO this is going to be replaced by firebase
-      // localStorage.removeItem('user_quotes');
-      // localStorage.setItem('user_quotes', JSON.stringify(this.userQuotes()));
-    }
-  });
+  //       debugger
+  //     })
+  //     // TODO this is going to be replaced by firebase
+  //     // localStorage.removeItem('user_quotes');
+  //     // localStorage.setItem('user_quotes', JSON.stringify(this.userQuotes()));
+  //   }
+  // });
 
   constructor(
     private _http: HttpClient
-  ) { this.getListUser() }
+  ) { }
 
   public canSaveQuote(quoteId: string): boolean {
     const indexFinded = this.userQuotes().findIndex(quote => quote.id_custom.includes(quoteId));
@@ -114,7 +111,11 @@ export class QuotesService {
     if(this.canSaveQuote(quote.id_custom)) {
       quote.setDateSave();
       this._firestoreService.addQuote(quote);
-      this.updateListTrigger.set(Math.random());
+      // this.updateListTrigger.set(Math.random());
+
+
+
+
       // const actualList = [ ...this.userQuotes() ];
       // quote.setDateSave();
       // actualList.push(quote);
@@ -126,10 +127,14 @@ export class QuotesService {
   public editQuote(quote: Quote) {
     const indexQuote = this.userQuotes().findIndex(qt => qt.id_custom === quote.id_custom);
     if(indexQuote !== -1) {
-      const copyList = [ ...this.userQuotes()];
-      copyList[indexQuote] = Quote.createFakingResp(quote);
-      this.userQuotes.set(copyList);
-      this.saveQuotes();
+
+
+
+
+      // const copyList = [ ...this.userQuotes()];
+      // copyList[indexQuote] = Quote.createFakingResp(quote);
+      // this.userQuotes.set(copyList);
+      // this.saveQuotes();
     } else { throw new Error('Somehow Quote was not found!') }
   }
 
@@ -137,9 +142,9 @@ export class QuotesService {
     const copyList = [ ...this.userQuotes() ];
     const indexQuote = copyList.findIndex(qt => qt.id_custom.includes(quoteId));
     if(indexQuote !== -1) {
-      copyList.splice(indexQuote, 1);
-      this.userQuotes.set(copyList);
-      this.saveQuotes();
+      // copyList.splice(indexQuote, 1);
+      // this.userQuotes.set(copyList);
+      // this.saveQuotes();
     } else { throw new Error('Somehow quote was not found!') }
   }
   //#endregion
