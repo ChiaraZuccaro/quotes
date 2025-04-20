@@ -28,9 +28,9 @@ export class QuotesService {
   public userQuotes: WritableSignal<Quote[]> = signal([]);
   public exploreQuotes: WritableSignal<Quote[]> = signal([]);
   public saveQuotes = computed(() => {
+    localStorage.removeItem('user_quotes');
     if(this.userQuotes().length > 0) {
       // TODO this is going to be replaced by firebase
-      localStorage.removeItem('user_quotes');
       localStorage.setItem('user_quotes', JSON.stringify(this.userQuotes()));
     }
   });
