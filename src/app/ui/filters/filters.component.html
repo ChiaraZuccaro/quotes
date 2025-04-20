@@ -22,7 +22,7 @@
         </span>
         <div class="accordion_content" [class.show_content]="openedAccordion.includes('author')">
           @for (author of filters.authors; track $index) {
-            <span class="pill" [class.full]="selectedAuthors.includes(author)" (click)="manageSelection(author,'author')">{{author}}</span>
+            <span class="pill" [class.full]="appliedFilters.authors.includes(author)" (click)="manageSelection(author,'author')">{{author}}</span>
           }
         </div>
       </div>
@@ -36,7 +36,7 @@
         </span>
         <div class="accordion_content" [class.show_content]="openedAccordion.includes('category')">
           @for (category of filters.categories; track $index) {
-            <span class="pill" [class.full]="selectedCategories.includes(category)" (click)="manageSelection(category,'category')">{{category}}</span>
+            <span class="pill" [class.full]="appliedFilters.categories.includes(category)" (click)="manageSelection(category,'category')">{{category}}</span>
           }
         </div>
       </div>

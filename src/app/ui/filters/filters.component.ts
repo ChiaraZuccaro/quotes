@@ -27,6 +27,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
   private $destroy = new Subject();
 
   private copyList: Quote[];
+  // this list is going to be filtered
   public startList = input.required<Quote[]>();
   
   public filters: Filters;
@@ -35,9 +36,6 @@ export class FiltersComponent implements OnInit, OnDestroy {
   public showFilters: boolean = false;
   public isExplorePage: boolean;
   public isSomeFilterApplied = false;
-
-  public selectedAuthors: string[] = [];
-  public selectedCategories: string[] = [];
   
   public openedAccordion: string[] = [];
 
@@ -49,6 +47,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
     ).subscribe(isMobile => this.showFilters = !isMobile);
 
     this.copyList = [ ...this.startList() ];
+    // TODO to enhance
     this.filters = this.createFiltersFrom(this.copyList);
     this.appliedFilters = structuredClone(this._quotesService.initFilters);
   }
@@ -109,18 +108,17 @@ export class FiltersComponent implements OnInit, OnDestroy {
   public manageSelection(itemToAdd: string, type: 'author' | 'category') {
     switch(type) {
       case 'author':
-        if(this.canAdd(itemToAdd, this.selectedAuthors)) {
-          this.selectedAuthors.push(itemToAdd);
-        } else this.deleteItem(itemToAdd, this.selectedAuthors);
-        this.filterBy('author');
+        if(this.canAdd(itemToAdd, this.appliedFilters.authors)) {
+          this.appliedFilters.authors.push(itemToAdd);
+        } else this.deleteItem(itemToAdd, this.appliedFilters.authors);
       break;
       case 'category':
-        if(this.canAdd(itemToAdd, this.selectedCategories)) {
-          this.selectedCategories.push(itemToAdd);
-        } else this.deleteItem(itemToAdd, this.selectedCategories);
-        this.filterBy('category');
+        if(this.canAdd(itemToAdd, this.appliedFilters.categories)) {
+          this.appliedFilters.categories.push(itemToAdd);
+        } else this.deleteItem(itemToAdd, this.appliedFilters.categories);
       break;
     }
+    this.filterBy(type);
   }
 
   public filterBy(type: FiltersType) {
@@ -128,14 +126,8 @@ export class FiltersComponent implements OnInit, OnDestroy {
       case 'fav':
         this.appliedFilters.favorites = this.filters.favorites;
       break;
-      case 'author':
-        this.appliedFilters.authors = [...this.selectedAuthors];
-      break;
       case 'typed':
         this.appliedFilters.typed = this.filters.typed.toLowerCase().replace(' ', '-');
-      break;
-      case 'category':
-        this.appliedFilters.categories = [...this.selectedCategories];
       break;
     }
     this.isSomeFilterApplied = JSON.stringify(this.appliedFilters) !== JSON.stringify(this._quotesService.initFilters);
@@ -144,8 +136,6 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   public resetFilters() {
     this.appliedFilters = structuredClone(this._quotesService.initFilters);
-    this.selectedAuthors = [];
-    this.selectedCategories = [];
     this.openedAccordion = [];
     this.isSomeFilterApplied = false;
     this._quotesService.userQuotes.set(this.copyList);
