@@ -26,6 +26,13 @@
       align-items: center;
       gap: .5rem;
     }
+
+    &.fixed {
+      position: fixed;
+      top: 3rem;
+      left: 4.6rem;
+      width: 26%;
+    }
   }
 
   .quotes {
@@ -99,8 +106,23 @@
 @media(min-width: 1400px) {
   #list {
     width: 85%;
-    .quotes {
-      width: 70%;
+
+    .filters {
+      &.fixed {
+        left: 8.5rem;
+        width: 24%;
+      }
     }
+
+    .quotes { width: 70%; }
   }
+}
+
+@media(min-width: 1600px) {
+  #list { .filters { &.fixed { left: 9.5rem; } } }
+}
+
+
+@media(min-width: 1800px) {
+  #list { .filters { &.fixed { left: 10.5rem; } } }
 }
