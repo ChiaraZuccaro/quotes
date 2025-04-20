@@ -23,8 +23,8 @@
           </button>
         }
       </div>  
-      @for (quote of resortList(); track quote.id) {
-        <quote-card [class.disable]= "quote.id !== quotesService.quoteInEditMode() && disableCard()"
+      @for (quote of resortList(); track quote.id_custom) {
+        <quote-card [class.disable]= "quote.id_custom !== quotesService.quoteInEditMode() && disableCard()"
         [quote]="quote" [originalType]="isExplorePage ? 'explore_list' : 'user_list'"></quote-card>
       }
     } @else {

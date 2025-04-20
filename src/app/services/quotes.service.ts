@@ -1,14 +1,17 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, Injectable, signal, WritableSignal } from '@angular/core';
+import { computed, inject, Injectable, resource, signal, WritableSignal } from '@angular/core';
 import { Quote } from '@entity/Quote.class';
 import { Filters } from '@interfaces/filters.interface';
 import { RandomResp, QuoteResp, ListResp } from '@interfaces/quotes-resp.interface';
 import { map } from 'rxjs';
+import { FirebaseService } from './firebase.service';
 
 @Injectable({ providedIn: 'root' })
 export class QuotesService {
   // Warning: base uri is a configurated virtual host!
   private readonly baseUri: string = 'http://quotes.local/quote';
+  // Firebase
+  private _firestoreService = inject(FirebaseService);
   // Filters
   public initFilters: Filters = {
     typed: '', favorites: false,
@@ -17,7 +20,6 @@ export class QuotesService {
   // Card quote
   public quoteInEditMode = signal<string>('');
   public isCreatingMode = signal(false);
-  public updateListTrigger = signal(0);
   public initQuote: QuoteResp = {
     author: '', authorSlug: '',
     content: '', dateAdded: '',
@@ -27,11 +29,32 @@ export class QuotesService {
   // List quotes
   public userQuotes: WritableSignal<Quote[]> = signal([]);
   public exploreQuotes: WritableSignal<Quote[]> = signal([]);
+  public updateListTrigger = signal(0);
+
+  public test = resource({
+    request: () => this.updateListTrigger(),
+    loader: async () => {
+      const res: any = this._firestoreService.getQuotes().subscribe(resFire => {
+        console.log(resFire);
+        // debugger
+
+      })
+    }
+  })
+
+
   public saveQuotes = computed(() => {
     if(this.userQuotes().length > 0) {
+      const savePromises = this.userQuotes().map(qt => this._firestoreService.addQuote(qt));
+
+      Promise.all(savePromises).then(res => {
+        console.log(res);
+        
+        debugger
+      })
       // TODO this is going to be replaced by firebase
-      localStorage.removeItem('user_quotes');
-      localStorage.setItem('user_quotes', JSON.stringify(this.userQuotes()));
+      // localStorage.removeItem('user_quotes');
+      // localStorage.setItem('user_quotes', JSON.stringify(this.userQuotes()));
     }
   });
 
@@ -40,7 +63,7 @@ export class QuotesService {
   ) { this.getListUser() }
 
   public canSaveQuote(quoteId: string): boolean {
-    const indexFinded = this.userQuotes().findIndex(quote => quote.id.includes(quoteId));
+    const indexFinded = this.userQuotes().findIndex(quote => quote.id_custom.includes(quoteId));
     return indexFinded === -1;
   }
 
@@ -64,29 +87,43 @@ export class QuotesService {
   }
 
   public getListUser() {
-    const raw = JSON.parse(localStorage.getItem('user_quotes') || '[]');
-    const finalList: Quote[] = raw.map((qt: Quote) => Quote.createFakingResp(qt));
-    // in user list we don't need isAlreadySaved
-    finalList.forEach(qt => qt.isAlreadySaved = false);
-    const qtInEdit = finalList.find(qt => qt.isEditMode);
-    if(qtInEdit) this.quoteInEditMode.set(qtInEdit.id);
-    this.userQuotes.set(finalList);
+    // const test = resource({
+    //   request: () => this.updateListTrigger(),
+    //   loader: async () => {
+    //     const res: any = this._firestoreService.getQuotes().subscribe(resFire => {
+    //       console.log(resFire);
+          
+    //     })
+    //   }
+    // })
+
+
+
+    // const raw = JSON.parse(localStorage.getItem('user_quotes') || '[]');
+    // const finalList: Quote[] = raw.map((qt: Quote) => Quote.createFakingResp(qt));
+    // // in user list we don't need isAlreadySaved
+    // finalList.forEach(qt => qt.isAlreadySaved = false);
+    // const qtInEdit = finalList.find(qt => qt.isEditMode);
+    // if(qtInEdit) this.quoteInEditMode.set(qtInEdit.id_custom);
+    // this.userQuotes.set(finalList);
   }
   //#endregion
 
   //#region user manage
   public saveQuote(quote: Quote) {
-    if(this.canSaveQuote(quote.id)) {
-      const actualList = [ ...this.userQuotes() ];
-      quote.setDateSave();
-      actualList.push(quote);
-      this.userQuotes.set(actualList);
-      this.saveQuotes();
+    if(this.canSaveQuote(quote.id_custom)) {
+      this._firestoreService.addQuote(quote);
+      this.updateListTrigger.set(Math.random());
+      // const actualList = [ ...this.userQuotes() ];
+      // quote.setDateSave();
+      // actualList.push(quote);
+      // this.userQuotes.set(actualList);
+      // this.saveQuotes();
     } else { console.warn('Quote already inserted!') }
   }
 
   public editQuote(quote: Quote) {
-    const indexQuote = this.userQuotes().findIndex(qt => qt.id === quote.id);
+    const indexQuote = this.userQuotes().findIndex(qt => qt.id_custom === quote.id_custom);
     if(indexQuote !== -1) {
       const copyList = [ ...this.userQuotes()];
       copyList[indexQuote] = Quote.createFakingResp(quote);
@@ -97,12 +134,12 @@ export class QuotesService {
 
   public deleteQuote(quoteId: string) {
     const copyList = [ ...this.userQuotes() ];
-    const indexQuote = copyList.findIndex(qt => qt.id.includes(quoteId));
+    const indexQuote = copyList.findIndex(qt => qt.id_custom.includes(quoteId));
     if(indexQuote !== -1) {
       copyList.splice(indexQuote, 1);
       this.userQuotes.set(copyList);
       this.saveQuotes();
-    } else { console.error('Somehow quote was not found!') }
+    } else { throw new Error('Somehow quote was not found!') }
   }
   //#endregion
 }

@@ -105,27 +105,4 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
   public showSocials() {
     this.quote().areSocialShown = !this.quote().areSocialShown;
   }
-
-  // public saveEdit() {
-  //   // if(this.quotesService.provEditField.newDescription === '') {
-  //   //   this.quotesService.provEditField.newDescription = 'You need to write at least one character!';
-  //   //   this.timeoutIds.push(setTimeout(() => this.quotesService.provEditField.newDescription = this.quote().description, 1500));
-  //   //   return;
-  //   // }
-  //   // this.isEditMode = !this.isEditMode;
-
-  //   this.quote().description = this._quotesService.provEditField.newDescription;
-  //   this.quote().author = this._quotesService.provEditField.newAuthor === '' ? 'Anonymous' : this._quotesService.provEditField.newAuthor;
-  //   this.quote().author_slug = this.quote().author.toLowerCase().replace(' ', '-');
-
-  //   if(this.isCreatingMode()) {
-  //     this.quote().addedDate = new Date();
-  //     this.quote().generateQuoteId();
-  //     this._quotesService.saveQuote(this.quote());
-  //     this._quotesService.isCreatingMode.set(false);
-  //     return;
-  //   }
-  //   this._quotesService.editQuote(this.quote());
-  //   this._quotesService.saveQuotes();
-  // }
 }

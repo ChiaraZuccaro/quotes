@@ -45,7 +45,7 @@ export abstract class BaseCard {
   }
 
   protected changeEditMode(quote: Quote) {
-    const activeEdit = quote.isEditMode ? '' : quote.id;
+    const activeEdit = quote.isEditMode ? '' : quote.id_custom;
     quote.isEditMode = !quote.isEditMode;
 
     this._quotesService.editQuote(quote); // to save editMode property

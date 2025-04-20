@@ -7,7 +7,7 @@ import { ListComponent } from 'src/app/ui/list/list.component';
 
 @Component({
   selector: 'explore',
-  imports: [ ListComponent, RouterLink ],
+  imports: [ ListComponent ],
   templateUrl: './explore.component.html',
   styleUrl: './explore.component.scss'
 })
@@ -29,9 +29,9 @@ export class ExploreComponent implements OnInit {
   private checkSavedQuotes(list: Quote[]) {
     const copyList = [...list];
     copyList.forEach(qt => {
-      qt.isAlreadySaved = !this.quotesService.canSaveQuote(qt.id);
+      qt.isAlreadySaved = !this.quotesService.canSaveQuote(qt.id_custom);
       if(qt.isAlreadySaved) {
-        const findQt = this.quotesService.userQuotes().find(usQt => usQt.id === qt.id);
+        const findQt = this.quotesService.userQuotes().find(usQt => usQt.id_custom === qt.id_custom);
         if(findQt) { qt.addedDate = findQt.addedDate; qt.isFavorite = findQt.isFavorite }
       }
     });
