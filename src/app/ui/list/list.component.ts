@@ -4,6 +4,7 @@ import { QuoteCardComponent } from '../quote-card/quote-card.component';
 import { QuotesService } from '@services/quotes.service';
 import { FiltersComponent } from '../filters/filters.component';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'list',
@@ -12,6 +13,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
   styleUrl: './list.component.scss'
 })
 export class ListComponent implements OnInit {
+  private _viewportScroller = inject(ViewportScroller);
   private _route = inject(ActivatedRoute);
   public quotesService = inject(QuotesService);
 
@@ -45,4 +47,6 @@ export class ListComponent implements OnInit {
     this.quotesService.userQuotes.set([]);
     localStorage.removeItem('user_quotes');
   }
+
+  public scrollTop() { this._viewportScroller.scrollToPosition([0,0]); }
 }

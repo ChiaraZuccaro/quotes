@@ -4,7 +4,25 @@
   flex-direction: column;
   gap: 1rem;
 
-  .filters { user-select: none; }
+  .go_top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 5;
+  }
+
+  .filters {
+    user-select: none;
+
+    .pill {
+      position: fixed;
+      bottom: 2rem;
+      z-index: 5;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+    }
+  }
 
   .quotes {
     display: flex;
