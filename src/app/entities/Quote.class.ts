@@ -1,4 +1,5 @@
 import { signal, WritableSignal } from "@angular/core";
+import { FireResp } from "@interfaces/firebase.interface";
 import { ConfigType, EditFields } from "@interfaces/quote-card.interface";
 import { QuoteResp } from "@interfaces/quotes-resp.interface";
 import { getRandomString } from "@utils/methods";
@@ -49,6 +50,28 @@ export class Quote {
     q.isPinned = quote.isPinned;
     q.areSocialShown = quote.areSocialShown;
     q.configType.set(q.isEditMode ? 'edit' : 'user_list');
+    return q;
+  }
+
+  public static createFromFirebase(quote: FireResp) {
+    const fakeResp = {
+      content: quote.description,
+      author: quote.author,
+      authorSlug: quote.author_slug,
+      _id: quote.id,
+      dateAdded: quote.addedDate.toDate().toISOString(),
+      dateModified: quote.addedDate.toDate().toISOString(),
+      length: quote.description.length,
+      tags: [ ...quote.categories ]
+    };
+
+    const q = new Quote(fakeResp);
+    q.addedDate = quote.addedDate.toDate();
+    q.isEditMode = false;
+    q.isFavorite = false;
+    q.isPinned = false;
+    q.areSocialShown = false;
+    q.configType.set('user_list');
     return q;
   }
   

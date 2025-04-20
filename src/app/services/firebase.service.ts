@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Firestore, collection, collectionData, addDoc, doc, deleteDoc } from '@angular/fire/firestore';
 import { Quote } from '@entity/Quote.class';
+import { FireResp } from '@interfaces/firebase.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -14,9 +15,9 @@ export class FirebaseService {
     return { author, author_slug, description, addedDate, categories };
   }
 
-  public getQuotes(): Observable<Quote[]> {
+  public getQuotes(): Observable<FireResp[]> {
     const quotesRef = collection(this._firestore, 'quotes');
-    return collectionData(quotesRef, { idField: 'id' }) as Observable<Quote[]>;
+    return collectionData(quotesRef, { idField: 'id' }) as Observable<FireResp[]>;
   }
 
   public addQuote(quote: Quote) {

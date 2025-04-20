@@ -34,13 +34,13 @@ export class QuotesService {
   public test = resource({
     request: () => this.updateListTrigger(),
     loader: async () => {
-      const res: any = this._firestoreService.getQuotes().subscribe(resFire => {
-        console.log(resFire);
-        // debugger
-
-      })
+      this._firestoreService.getQuotes().subscribe(resFire => {
+        const quoteResp: Quote[] = resFire.map(fireQt => Quote.createFromFirebase(fireQt));
+        console.log(quoteResp);
+        this.userQuotes.set(quoteResp);
+      });
     }
-  })
+  });
 
 
   public saveQuotes = computed(() => {
@@ -112,6 +112,7 @@ export class QuotesService {
   //#region user manage
   public saveQuote(quote: Quote) {
     if(this.canSaveQuote(quote.id_custom)) {
+      quote.setDateSave();
       this._firestoreService.addQuote(quote);
       this.updateListTrigger.set(Math.random());
       // const actualList = [ ...this.userQuotes() ];
