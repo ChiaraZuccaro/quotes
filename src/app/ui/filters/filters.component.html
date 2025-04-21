@@ -11,8 +11,11 @@
     }
   </div>
   <div class="filters_actual">
-    <input (input)="filterBy('typed')" [(ngModel)]="appliedFilters.typed" type="text" class="items" placeholder="Type quote or author ...">
-    <span (click)="filters.favorites = !filters.favorites; filterBy('fav')" class="items" [class.active]="appliedFilters.favorites">Show favorites only</span>
+    <input (input)="applyFilters()" [(ngModel)]="appliedFilters.typed" type="text" class="items" placeholder="Type quote or author ...">
+    <label class="items" [class.active]="appliedFilters.favorites" for="fav">
+      <span>Show favorites only</span>
+      <input [(ngModel)]="appliedFilters.favorites" (ngModelChange)="applyFilters()" type="checkbox" name="fav" id="fav">
+    </label>
     
     @if(filters.authors.length > 0) {
       <div class="items" [class.show]="openedAccordion.includes('author')">
@@ -22,7 +25,7 @@
         </span>
         <div class="accordion_content" [class.show_content]="openedAccordion.includes('author')">
           @for (author of filters.authors; track $index) {
-            <span class="pill" [class.full]="appliedFilters.authors.includes(author)" (click)="manageSelection(author,'author')">{{author}}</span>
+            <span class="pill" [class.full]="appliedFilters.authors.includes(author)" (click)="manageSelection(author,'authors')">{{author}}</span>
           }
         </div>
       </div>
@@ -36,7 +39,7 @@
         </span>
         <div class="accordion_content" [class.show_content]="openedAccordion.includes('category')">
           @for (category of filters.categories; track $index) {
-            <span class="pill" [class.full]="appliedFilters.categories.includes(category)" (click)="manageSelection(category,'category')">{{category}}</span>
+            <span class="pill" [class.full]="appliedFilters.categories.includes(category)" (click)="manageSelection(category,'categories')">{{category}}</span>
           }
         </div>
       </div>

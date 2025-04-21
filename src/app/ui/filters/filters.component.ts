@@ -7,8 +7,6 @@ import { Filters } from '@interfaces/filters.interface';
 import { QuotesService } from '@services/quotes.service';
 import { map, Subject, takeUntil } from 'rxjs';
 
-type FiltersType = 'fav' | 'author' | 'typed' | 'category';
-
 @Component({
   selector: 'filters',
   imports: [ FormsModule ],
@@ -84,6 +82,9 @@ export class FiltersComponent implements OnInit, OnDestroy {
       })
     });
 
+    authors.sort((a, b) => a.localeCompare(b));
+    categories.sort((a, b) => a.localeCompare(b));
+
     return {
       typed: '',
       favorites: false,
@@ -120,7 +121,8 @@ export class FiltersComponent implements OnInit, OnDestroy {
   }
   
 
-  private applyFilters() {
+  public applyFilters() {
+    this.isSomeFilterApplied = JSON.stringify(this.appliedFilters) !== JSON.stringify(this._quotesService.initFilters);
     const filterQuotes = this.copyList.filter(qt => this.matchesTyped(qt) &&
       this.matchesFavorite(qt) && this.matchesAuthor(qt) && this.matchesCategory(qt)
     );
@@ -128,32 +130,33 @@ export class FiltersComponent implements OnInit, OnDestroy {
     this._quotesService.userQuotes.set(listToSet);
   }
 
-  public manageSelection(itemToAdd: string, type: 'author' | 'category') {
-    switch(type) {
-      case 'author':
-        if(this.canAdd(itemToAdd, this.appliedFilters.authors)) {
-          this.appliedFilters.authors.push(itemToAdd);
-        } else this.deleteItem(itemToAdd, this.appliedFilters.authors);
-      break;
-      case 'category':
-        if(this.canAdd(itemToAdd, this.appliedFilters.categories)) {
-          this.appliedFilters.categories.push(itemToAdd);
-        } else this.deleteItem(itemToAdd, this.appliedFilters.categories);
-      break;
-    }
-    this.filterBy(type);
-  }
+  public manageSelection(itemToAdd: string, type: keyof Filters) {
+    // I'm sure that is going to be a string array because type var is only 'authors' or 'categories'
+    const arraySelection = this.appliedFilters[type] as string[];
 
-  public filterBy(type: FiltersType) {
-    switch(type) {
-      case 'fav':
-        this.appliedFilters.favorites = this.filters.favorites;
-      break;
-      case 'typed':
-        this.appliedFilters.typed.toLowerCase();
-      break;
-    }
-    this.isSomeFilterApplied = JSON.stringify(this.appliedFilters) !== JSON.stringify(this._quotesService.initFilters);
+    if(this.canAdd(itemToAdd, arraySelection)) {
+      arraySelection.push(itemToAdd);
+    } else this.deleteItem(itemToAdd, arraySelection);
+    // sort by alphabetic order after push
+    arraySelection.sort((a, b) => a.localeCompare(b));
+
+    const allItemsAreSelected = (this.filters[type] as string[]).every(selItem => arraySelection.includes(selItem));
+    if(allItemsAreSelected) { this.resetFilters(); return; }
+
+    // INSTEAD OF ...
+    // switch(type) {
+    //   case 'author':
+    //     if(this.canAdd(itemToAdd, this.appliedFilters.authors)) {
+    //       this.appliedFilters.authors.push(itemToAdd);
+    //     } else this.deleteItem(itemToAdd, this.appliedFilters.authors);
+    //   break;
+    //   case 'category':
+    //     if(this.canAdd(itemToAdd, this.appliedFilters.categories)) {
+    //       this.appliedFilters.categories.push(itemToAdd);
+    //     } else this.deleteItem(itemToAdd, this.appliedFilters.categories);
+    //   break;
+    // }
+    
     this.applyFilters();
   }
 
