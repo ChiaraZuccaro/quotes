@@ -4,7 +4,36 @@
   flex-direction: column;
   gap: 1rem;
 
-  .filters { user-select: none; }
+  .go_top {
+    opacity: 0;
+    transition: opacity .5s ease;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 5;
+  }
+
+  .filters {
+    user-select: none;
+
+    .pill {
+      opacity: 0;
+      transition: opacity .5s ease;
+      position: fixed;
+      bottom: 2rem;
+      z-index: 5;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    &.fixed {
+      position: fixed;
+      top: 3rem;
+      left: 4.6rem;
+      width: 26%;
+    }
+  }
 
   .quotes {
     display: flex;
@@ -40,6 +69,12 @@
   }
 }
 
+.visible {
+  opacity: 1 !important;
+  transition: opacity .3 ease;   
+}
+
+
 @media(min-width: 500px) {
   #list {
     width: 85%;
@@ -71,8 +106,23 @@
 @media(min-width: 1400px) {
   #list {
     width: 85%;
-    .quotes {
-      width: 70%;
+
+    .filters {
+      &.fixed {
+        left: 8.5rem;
+        width: 24%;
+      }
     }
+
+    .quotes { width: 70%; }
   }
+}
+
+@media(min-width: 1600px) {
+  #list { .filters { &.fixed { left: 9.5rem; } } }
+}
+
+
+@media(min-width: 1800px) {
+  #list { .filters { &.fixed { left: 10.5rem; } } }
 }

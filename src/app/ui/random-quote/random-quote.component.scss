@@ -12,13 +12,14 @@
 
     &_wrap {
       height: 100%;
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 70%;
     }
     
     &_content {
+      width: 80%;
       border-radius: .5rem;
       padding: .5rem;
       background-color: rgba($color: #ffffff, $alpha: .9);
@@ -33,6 +34,8 @@
       position: relative;
       display: inline-flex;
       align-items: center;
+      justify-content: space-between;
+      width: 100%;
       gap: .3rem;
 
       .symbol {
@@ -73,7 +76,7 @@
   #random_quote {
     .quote {
       &_wrap {
-        width: 40%;
+        width: 80%;
       }
       &_content {
         padding: .8rem;
@@ -83,4 +86,8 @@
       }
     }
   }
+}
+
+@media (min-width: 1500px) {
+  #random_quote { .quote { &_wrap { width: 65%; } } }
 }

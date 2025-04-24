@@ -7,8 +7,6 @@ import { Filters } from '@interfaces/filters.interface';
 import { QuotesService } from '@services/quotes.service';
 import { map, Subject, takeUntil } from 'rxjs';
 
-type FiltersType = 'fav' | 'author' | 'typed' | 'category';
-
 @Component({
   selector: 'filters',
   imports: [ FormsModule ],
@@ -27,6 +25,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
   private $destroy = new Subject();
 
   private copyList: Quote[];
+  // this list is going to be filtered
   public startList = input.required<Quote[]>();
   
   public filters: Filters;
@@ -35,9 +34,6 @@ export class FiltersComponent implements OnInit, OnDestroy {
   public showFilters: boolean = false;
   public isExplorePage: boolean;
   public isSomeFilterApplied = false;
-
-  public selectedAuthors: string[] = [];
-  public selectedCategories: string[] = [];
   
   public openedAccordion: string[] = [];
 
@@ -49,6 +45,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
     ).subscribe(isMobile => this.showFilters = !isMobile);
 
     this.copyList = [ ...this.startList() ];
+    // TODO to enhance
     this.filters = this.createFiltersFrom(this.copyList);
     this.appliedFilters = structuredClone(this._quotesService.initFilters);
   }
@@ -85,6 +82,9 @@ export class FiltersComponent implements OnInit, OnDestroy {
       })
     });
 
+    authors.sort((a, b) => a.localeCompare(b));
+    categories.sort((a, b) => a.localeCompare(b));
+
     return {
       typed: '',
       favorites: false,
@@ -92,60 +92,76 @@ export class FiltersComponent implements OnInit, OnDestroy {
     }
   }
 
-  private applyFilters() {
-    const { favorites: filtFav, typed: filtType, authors: filAuths, categories: filCats } = this.appliedFilters;
-    const filterQuotes = this.copyList.filter(qt => {
-      const matchTyped = qt.description.toLowerCase().replace(' ', '-').includes(filtType) || qt.author_slug.includes(filtType);
-      const matchFav = filtFav ? qt.isFavorite : true;
-      const matchAuthor = filAuths.length === 0 || filAuths.includes(qt.author);
-      const matchCategory = filCats.length === 0 || qt.categories.some(cat => filCats.includes(cat));
+  private createKeywords() {
+    return this.appliedFilters.typed.split(/\s+/).filter(k => k.length > 0);
+  }
 
-      return matchTyped && matchFav && matchAuthor && matchCategory;
-    });
+  private matchesTyped(qt: Quote): boolean {
+    const typed = this.appliedFilters.typed;
+    if (typed.length === 0) return true;
+  
+    const keywords = this.createKeywords();
+    return keywords.some(kw => qt.description.toLowerCase().includes(kw) ||
+      qt.author_slug.includes(kw)
+    );
+  }
+  
+  private matchesFavorite(qt: Quote): boolean {
+    return this.appliedFilters.favorites ? qt.isFavorite : true;
+  }
+  
+  private matchesAuthor(qt: Quote): boolean {
+    const authors = this.appliedFilters.authors;
+    return authors.length === 0 || authors.includes(qt.author);
+  }
+  
+  private matchesCategory(qt: Quote): boolean {
+    const categories = this.appliedFilters.categories;
+    return categories.length === 0 || qt.categories.some(cat => categories.includes(cat));
+  }
+  
+
+  public applyFilters() {
+    this.isSomeFilterApplied = JSON.stringify(this.appliedFilters) !== JSON.stringify(this._quotesService.initFilters);
+    const filterQuotes = this.copyList.filter(qt => this.matchesTyped(qt) &&
+      this.matchesFavorite(qt) && this.matchesAuthor(qt) && this.matchesCategory(qt)
+    );
     const listToSet = this.isSomeFilterApplied ? filterQuotes : this.copyList;
     this._quotesService.userQuotes.set(listToSet);
   }
 
-  public manageSelection(itemToAdd: string, type: 'author' | 'category') {
-    switch(type) {
-      case 'author':
-        if(this.canAdd(itemToAdd, this.selectedAuthors)) {
-          this.selectedAuthors.push(itemToAdd);
-        } else this.deleteItem(itemToAdd, this.selectedAuthors);
-        this.filterBy('author');
-      break;
-      case 'category':
-        if(this.canAdd(itemToAdd, this.selectedCategories)) {
-          this.selectedCategories.push(itemToAdd);
-        } else this.deleteItem(itemToAdd, this.selectedCategories);
-        this.filterBy('category');
-      break;
-    }
-  }
+  public manageSelection(itemToAdd: string, type: keyof Filters) {
+    // I'm sure that is going to be a string array because type var is only 'authors' or 'categories'
+    const arraySelection = this.appliedFilters[type] as string[];
 
-  public filterBy(type: FiltersType) {
-    switch(type) {
-      case 'fav':
-        this.appliedFilters.favorites = this.filters.favorites;
-      break;
-      case 'author':
-        this.appliedFilters.authors = [...this.selectedAuthors];
-      break;
-      case 'typed':
-        this.appliedFilters.typed = this.filters.typed.toLowerCase().replace(' ', '-');
-      break;
-      case 'category':
-        this.appliedFilters.categories = [...this.selectedCategories];
-      break;
-    }
-    this.isSomeFilterApplied = JSON.stringify(this.appliedFilters) !== JSON.stringify(this._quotesService.initFilters);
+    if(this.canAdd(itemToAdd, arraySelection)) {
+      arraySelection.push(itemToAdd);
+    } else this.deleteItem(itemToAdd, arraySelection);
+    // sort by alphabetic order after push
+    arraySelection.sort((a, b) => a.localeCompare(b));
+
+    const allItemsAreSelected = (this.filters[type] as string[]).every(selItem => arraySelection.includes(selItem));
+    if(allItemsAreSelected) { this.resetFilters(); return; }
+
+    // INSTEAD OF ...
+    // switch(type) {
+    //   case 'author':
+    //     if(this.canAdd(itemToAdd, this.appliedFilters.authors)) {
+    //       this.appliedFilters.authors.push(itemToAdd);
+    //     } else this.deleteItem(itemToAdd, this.appliedFilters.authors);
+    //   break;
+    //   case 'category':
+    //     if(this.canAdd(itemToAdd, this.appliedFilters.categories)) {
+    //       this.appliedFilters.categories.push(itemToAdd);
+    //     } else this.deleteItem(itemToAdd, this.appliedFilters.categories);
+    //   break;
+    // }
+    
     this.applyFilters();
   }
 
   public resetFilters() {
     this.appliedFilters = structuredClone(this._quotesService.initFilters);
-    this.selectedAuthors = [];
-    this.selectedCategories = [];
     this.openedAccordion = [];
     this.isSomeFilterApplied = false;
     this._quotesService.userQuotes.set(this.copyList);

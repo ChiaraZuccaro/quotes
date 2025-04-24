@@ -9,9 +9,11 @@
   height: calc(100vh - 2rem);
   margin: 1rem;
   padding-bottom: 3rem;
+  -webkit-box-shadow: 0px 0px 2px 1px #8F8F8F; 
+  box-shadow: 0px 0px 15px 1px #8F8F8F;
   
   random-quote {
-    border-top-right-radius: 9.2rem;
+    border-top-right-radius: 9.8rem;
     border-top-left-radius: .85rem;
     height: 50%;
     background-image: url('/imgs/user_list.webp');

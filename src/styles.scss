@@ -27,6 +27,7 @@ $gold: #C7A740;
 html {
   font-size: clamp(13px, 1.5vw, 17px);
   font-family: $primary_font;
+  scroll-behavior: smooth;
 }
 
 body {
