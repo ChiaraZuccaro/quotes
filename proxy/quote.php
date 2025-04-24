@@ -10,11 +10,22 @@ $result = null;
 $message = 'Generic error';
 
 $request_uri = trim($_SERVER['REQUEST_URI'], '/');
-$segments = explode('/', $request_uri);
+
+$uriParts = explode('?', $request_uri, 2);
+$path = $uriParts[0];
+$queryString = $uriParts[1] ?? '';
+
+$segments = explode('/', $path);
+
 $keyUrl = $segments[1];
 
 if(isset($urlConfigs[$keyUrl])) {
   $url = $urlConfigs[$keyUrl];
+
+  if (!empty($queryString)) {
+    $separator = strpos($url, '?') === false ? '?' : '&';
+    $url .= $separator . $queryString;
+  }
 
   $contextOptions = [
     "ssl" => [
