@@ -1,10 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { SeoConfig } from '@interfaces/seo.interface';
+import { EXPLORE_SEO } from '@seo/explore.seo';
 import { HOME_SEO } from '@seo/home.seo';
 import { META_TAGS_MAP } from '@utils/meta-mapper';
 
-type PAGES = 'home';
+type PAGES = 'home' | 'explore';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class SeoService {
   private _meta = inject(Meta);
 
   private allPagesMeta: Record<PAGES, SeoConfig> = {
-    home: HOME_SEO
+    home: HOME_SEO,
+    explore: EXPLORE_SEO
   }
 
   private updateCanonical(url: string) {
