@@ -1,3 +1,5 @@
+import { Quote } from "@entity/Quote.class";
+
 export interface QuoteResp {
   author: string,
   authorSlug: string,
@@ -16,6 +18,9 @@ export interface ExploreList {
   totalPages: number,
   lastItemIndex: number,
   results: QuoteResp[]
+}
+export interface ExploreListParsed extends Omit<ExploreList, 'results'> {
+  results: Quote[];
 }
 
 export interface GeneralResp {

@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { computed, Injectable, signal, WritableSignal } from '@angular/core';
 import { Quote } from '@entity/Quote.class';
 import { Filters } from '@interfaces/filters.interface';
-import { RandomResp, QuoteResp, ListResp } from '@interfaces/quotes-resp.interface';
-import { map } from 'rxjs';
+import { RandomResp, QuoteResp, ListResp, ExploreListParsed } from '@interfaces/quotes-resp.interface';
+import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class QuotesService {
@@ -35,7 +35,7 @@ export class QuotesService {
     }
   });
   // Pagination
-  // ....
+  public currentPage = signal(1);
 
   constructor(
     private _http: HttpClient
@@ -56,12 +56,16 @@ export class QuotesService {
     }));
   }
 
-  public getListExplore() {
+  public getListExplore(pg: number): Observable<ExploreListParsed> {
     const url = `${this.baseUri}/list`;
 
-    return this._http.get<ListResp>(url).pipe(map(res => {
-      if(res.error) { throw new Error(res.message) }
-      return res.result.results.map(qt => new Quote(qt));
+    const urlParams = new URLSearchParams();
+    urlParams.set('page', pg.toString());
+
+    return this._http.get<ListResp>(`${url}?${urlParams.toString()}`).pipe(map(res => {
+      if(res.error || res.code !== 200) { throw new Error(res.message) }
+      const { result } = res;
+      return { ...result, results: result.results.map(qt => new Quote(qt)) }
     }));
   }
 

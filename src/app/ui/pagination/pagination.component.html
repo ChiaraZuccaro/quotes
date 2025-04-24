@@ -1,1 +1,5 @@
-<p>pagination works!</p>
+@for (pg of allPages; track $index) {
+  <button (click)="changePage(pg)" class="single_page" [class.current]="pg === dataPage().page">
+    <span>{{pg}}</span>
+  </button>
+}
