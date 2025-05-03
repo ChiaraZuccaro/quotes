@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, computed, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, input, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Quote } from '@entity/Quote.class';
 import { BaseConfig, ConfigType, ShareItem } from '@interfaces/quote-card.interface';

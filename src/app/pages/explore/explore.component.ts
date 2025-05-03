@@ -1,5 +1,4 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { Quote } from '@entity/Quote.class';
 import { QuotesService } from '@services/quotes.service';
 import { catchError, finalize, throwError } from 'rxjs';
