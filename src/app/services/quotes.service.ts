@@ -84,25 +84,9 @@ export class QuotesService {
   }
 
   public getListUser() {
-    // const test = resource({
-    //   request: () => this.updateListTrigger(),
-    //   loader: async () => {
-    //     const res: any = this._firestoreService.getQuotes().subscribe(resFire => {
-    //       console.log(resFire);
-          
-    //     })
-    //   }
-    // })
-
-
-
-    // const raw = JSON.parse(localStorage.getItem('user_quotes') || '[]');
-    // const finalList: Quote[] = raw.map((qt: Quote) => Quote.createFakingResp(qt));
-    // // in user list we don't need isAlreadySaved
-    // finalList.forEach(qt => qt.isAlreadySaved = false);
-    // const qtInEdit = finalList.find(qt => qt.isEditMode);
-    // if(qtInEdit) this.quoteInEditMode.set(qtInEdit.id_custom);
-    // this.userQuotes.set(finalList);
+    return this._firestoreService.getQuotes().pipe(
+      map(res => res.map(Quote.createFromFirebase))
+    );
   }
   //#endregion
 
@@ -111,30 +95,13 @@ export class QuotesService {
     if(this.canSaveQuote(quote.id_custom)) {
       quote.setDateSave();
       this._firestoreService.addQuote(quote);
-      // this.updateListTrigger.set(Math.random());
-
-
-
-
-      // const actualList = [ ...this.userQuotes() ];
-      // quote.setDateSave();
-      // actualList.push(quote);
-      // this.userQuotes.set(actualList);
-      // this.saveQuotes();
     } else { console.warn('Quote already inserted!') }
   }
 
   public editQuote(quote: Quote) {
     const indexQuote = this.userQuotes().findIndex(qt => qt.id_custom === quote.id_custom);
     if(indexQuote !== -1) {
-
-
-
-
-      // const copyList = [ ...this.userQuotes()];
-      // copyList[indexQuote] = Quote.createFakingResp(quote);
-      // this.userQuotes.set(copyList);
-      // this.saveQuotes();
+      this._firestoreService.updateQuote(quote.id_custom, quote);
     } else { throw new Error('Somehow Quote was not found!') }
   }
 
@@ -142,9 +109,7 @@ export class QuotesService {
     const copyList = [ ...this.userQuotes() ];
     const indexQuote = copyList.findIndex(qt => qt.id_custom.includes(quoteId));
     if(indexQuote !== -1) {
-      // copyList.splice(indexQuote, 1);
-      // this.userQuotes.set(copyList);
-      // this.saveQuotes();
+      this._firestoreService.deleteQuote(quoteId);
     } else { throw new Error('Somehow quote was not found!') }
   }
   //#endregion

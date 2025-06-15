@@ -4,5 +4,7 @@ export interface FireResp {
   author_slug: string,
   categories: string[],
   description: string,
-  id: string
+  id: string,
+  isPinned: boolean,
+  isFavorite: boolean
 }

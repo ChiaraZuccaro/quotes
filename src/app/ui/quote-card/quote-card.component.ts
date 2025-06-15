@@ -93,13 +93,13 @@ export class QuoteCardComponent implements OnInit, OnDestroy {
 
   public changeFavorites() {
     this.quote().isFavorite = !this.quote().isFavorite;
-    // this._quotesService.saveQuotes();
+    this._quotesService.editQuote(this.quote());
   }
 
   public changePinned() {
     this.quote().isPinned = !this.quote().isPinned;
     this._quotesService.updateListTrigger.set(Math.random());
-    // this._quotesService.saveQuotes();
+    this._quotesService.editQuote(this.quote());
   }
 
   public showSocials() {

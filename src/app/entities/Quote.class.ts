@@ -68,8 +68,8 @@ export class Quote {
     const q = new Quote(fakeResp);
     q.addedDate = quote.addedDate.toDate();
     q.isEditMode = false;
-    q.isFavorite = false;
-    q.isPinned = false;
+    q.isFavorite = quote.isFavorite;
+    q.isPinned = quote.isPinned;
     q.areSocialShown = false;
     q.configType.set('user_list');
     return q;
