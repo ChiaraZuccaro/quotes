@@ -16,7 +16,7 @@ export class UserListCard extends BaseCard {
   }
 
   private delete(quote: Quote) {
-    this._quotesService.deleteQuote(quote.id);
+    this._quotesService.deleteQuote(quote.id_custom);
   }
 
   protected override setFnsBtns(): void {

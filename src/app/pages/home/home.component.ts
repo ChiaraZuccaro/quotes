@@ -15,5 +15,10 @@ export class HomeComponent implements OnInit {
   private _seoService = inject(SeoService);
   public quoteService = inject(QuotesService);
 
-  ngOnInit(): void { this._seoService.updateMetaTag('home') }
+  ngOnInit(): void {
+    this._seoService.updateMetaTag('home');
+    this.quoteService.getListUser().subscribe({
+      next: list => this.quoteService.userQuotes.set(list)
+    })
+  }
 }

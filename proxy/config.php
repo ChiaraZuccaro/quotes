@@ -1,5 +1,5 @@
 <?php
-$base = 'https://api.quotable.io/';
+$base = 'http://api.quotable.io/';
 
 $urlConfigs = [
   'random' => $base . 'quotes/random',

@@ -20,7 +20,7 @@ export class CreationCard extends BaseCard {
     quote.author = '';
     quote.author_slug = '';
     quote.isEditMode = true;
-    quote.id = '';
+    quote.id_custom = '';
     quote.editFields = { newDescription: '', newAuthor: '' };
   }
 
