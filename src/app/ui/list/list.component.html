@@ -5,10 +5,10 @@
   <div class="filters" [class.fixed]="fixFilters() && !isMobile()">
     <filters [startList]="list()"></filters>
     @if(isExplorePage && resortList().length > 0) {
-      <a [class.visible]="fixGoTop()" (click)="scrollTop()" routerLink="/" class="pill full">
+      <!-- <a [class.visible]="fixGoTop()" (click)="scrollTop()" routerLink="/" class="pill full">
         <span class="icon icon-bookmarkcopy2"></span>
         <span>Go back</span>
-      </a>
+      </a> -->
     }
   </div>
 

@@ -22,7 +22,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  list { width: 100%; }
+
+  list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  pagination { width: 70%; }
 }
 
 @media(min-width: 550px) {
