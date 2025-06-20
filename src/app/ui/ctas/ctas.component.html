@@ -1,7 +1,7 @@
 <section id="ctas">
   <div class="btns">
     @if(!isCreateModeOn()) {
-      <a class="pill full" routerLink="/explore">Explore</a>
+      <a class="pill full" routerLink="/explore" [queryParams]="{ 'page': 1 }" >Explore</a>
     }
     <button (click)="activeCreatingMode()" [class.full]="isCreateModeOn()" class="pill color_gold">
       <span>Create yours</span>

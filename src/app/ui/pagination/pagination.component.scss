@@ -32,28 +32,14 @@
       -ms-overflow-style: none;
     }
     
-    
-    color: var(--gold);
     .single_page {
+      color: var(--gold);
       
       &.current {
         background-color: var(--gold);
         color: var(--primary-color);
+        padding: .2rem .4rem;
       }
     }
   }
-
-  // .single_page {
-  //   border-radius: 2rem;
-  //   background-color: var(--primary-color);
-  //   color: var(--gold);
-  //   font-size: 1.2rem;
-  //   width: 40px;
-  //   height: 40px;
-  
-  //   &.current {
-  //     background-color: var(--gold);
-  //     color: var(--primary-color);
-  //   }
-  // }
 }

@@ -3,15 +3,11 @@
     <span class="icon icon-cheveron-outline-left"></span>
   </div>
 
-  <div class="pages"
-    (mousedown)="initDrag($event)"
-    (mousemove)="dragging($event)"
-    (mouseup)="endDrag()"
-    >
-    @for (pg of allPages; track $index) {
-      <!-- <button type="button" (click)="changePage(pg)" class="single_page" [class.current]="pg === dataPage().page">
-      </button> -->
-      <span>{{pg}}</span>
+  <div class="pages">
+    @for (pg of pageSections; track $index) {
+      <button type="button" (click)="changePage(pg)" class="single_page" [class.current]="pg === dataPage().page">
+        <span>{{pg}}</span>
+      </button>
     }
   </div>
 

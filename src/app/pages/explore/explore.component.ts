@@ -1,12 +1,14 @@
-import { Component, inject, OnInit, resource, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Quote } from '@entity/Quote.class';
 import { PaginationList } from '@interfaces/pagination.interface';
 import { ExploreListParsed } from '@interfaces/quotes-resp.interface';
 import { QuotesService } from '@services/quotes.service';
 import { SeoService } from '@services/seo.service';
+import { ListComponent } from '@ui/list/list.component';
+import { PaginationComponent } from '@ui/pagination/pagination.component';
+import { isNotValidPage } from '@utils/query-params.utils';
 import { catchError, finalize, throwError } from 'rxjs';
-import { ListComponent } from 'src/app/ui/list/list.component';
-import { PaginationComponent } from 'src/app/ui/pagination/pagination.component';
 
 @Component({
   selector: 'explore',
@@ -15,28 +17,30 @@ import { PaginationComponent } from 'src/app/ui/pagination/pagination.component'
   styleUrl: './explore.component.scss'
 })
 export class ExploreComponent implements OnInit {
+  private _route = inject(ActivatedRoute);
   private _seoService = inject(SeoService);
   public quotesService = inject(QuotesService);
 
   public isLoading = signal(true);
   public paginator: PaginationList = { totalPages: 0, page: 0 };
 
-  public listTest = resource({
-    request: () => this.quotesService.currentPage(),
-    loader: async ({ request: page }) => {
+  ngOnInit() {
+    this._seoService.updateMetaTag('explore');
+
+    this._route.queryParams.subscribe(qp => {
+      const pg = qp['page'];
+
+      if(isNotValidPage(pg)) return;
+
       this.isLoading.set(true);
-      this.quotesService.getListExplore(page).pipe(
+      this.quotesService.getListExplore(pg).pipe(
         catchError(err =>  throwError(() => err)),
         finalize(() => this.isLoading.set(false))
       ).subscribe({
         next: res => { this.setPaginationInfo(res); this.setList(res.results); },
         error: err => console.error(err)
       });
-    }
-  });
-
-  ngOnInit(): void {
-    this._seoService.updateMetaTag('explore');
+    })
   }
 
   private checkSavedQuotes(list: Quote[]) {
