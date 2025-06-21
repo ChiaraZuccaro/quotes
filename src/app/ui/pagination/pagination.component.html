@@ -1,7 +1,8 @@
 <section id="pagination">
-  <div class="change_pages">
+  <button [disabled]="dataPage().page === 1" type="button"
+    (click)="prev()" class="change_pages" [class.disable]="dataPage().page === 1">
     <span class="icon icon-cheveron-outline-left"></span>
-  </div>
+  </button>
 
   <div class="pages">
     @for (pg of pageSections; track $index) {
@@ -11,7 +12,8 @@
     }
   </div>
 
-  <div class="change_pages">
+  <button [disabled]="dataPage().page === dataPage().totalPages" type="button"
+    (click)="next()" class="change_pages" [class.disable]="dataPage().page === dataPage().totalPages">
     <span class="icon icon-cheveron-outline-right"></span>
-  </div>
+  </button>
 </section>

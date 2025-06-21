@@ -7,9 +7,6 @@
     Looking for new quotes ....
   } @else {
     <!-- <list [list]="quotesService.exploreQuotes()"></list> -->
-  }
-  
-  @if(paginator.totalPages !== 0) {
     <pagination [dataPage]="paginator"></pagination>
   }
 </section>

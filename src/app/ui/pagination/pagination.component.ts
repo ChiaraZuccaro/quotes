@@ -2,6 +2,7 @@ import { Component, inject, input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginationList } from '@interfaces/pagination.interface';
 import { QuotesService } from '@services/quotes.service';
+import { isNotValidPage } from '@utils/query-params.utils';
 
 @Component({
   selector: 'pagination',
@@ -10,41 +11,66 @@ import { QuotesService } from '@services/quotes.service';
   styleUrl: './pagination.component.scss'
 })
 export class PaginationComponent implements OnInit {
+  private readonly PAGE_TO_SHOW = 5;
+
   private _quoteService = inject(QuotesService);
   private _router = inject(Router);
   private _route = inject(ActivatedRoute);
+  
   public allPages: number[] = [];
 
   public dataPage = input.required<PaginationList>();
   public pageSections: number[] = [];
 
   ngOnInit(): void {
-    this.allPages = this.createPages();
-    this.pageSections = this.firstSection();
-
     this._route.queryParams.subscribe(qp => {
-      const pg = qp['page'];
+      const page = qp['page'];
+
+      if(isNotValidPage(page)) return;
+
+      this.pageSections = this.getVisiblePages(+page);
     })
   }
 
-  private advanceSection() {}
+  private getVisiblePages(page: number) {
+    const half = Math.floor(this.PAGE_TO_SHOW / 2);
+    let first = page - half;
+    let last = page + half;
+    
+    if(first < 1) {
+      last += 1 - first;
+      first = 1;
+    }
+    
+    if(last > this.dataPage().totalPages) {
+      first -= 1;
+      last = this.dataPage().totalPages;
+    }
 
-  private firstSection() {
-    const test = Array.from({ length: 5 }, (_, i) => i + 1);
-
-    return test;
-  }
-
-  private createPages() {
-    return Array.from({ length: this.dataPage().totalPages }, (_, i) => i + 1);
+    const pages = [];
+    for(let i = first; i <= last; i++) {
+      pages.push(i);
+    }
+    return pages;
   }
 
   public changePage(newPg: number) {
-    this._quoteService.currentPage.set(newPg);
     this._router.navigate([], {
       relativeTo: this._route,
       queryParams: { page: newPg },
       queryParamsHandling: 'merge'
     });
+  }
+
+  public prev() {
+    const newPage = this.dataPage().page - 1;
+    if(newPage < 1) return;
+    this.changePage(newPage);
+  }
+
+  public next() {
+    const newPage = this.dataPage().page + 1;
+    if(newPage > this.dataPage().totalPages) return;
+    this.changePage(newPage);
   }
 }
