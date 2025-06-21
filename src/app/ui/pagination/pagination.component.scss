@@ -4,6 +4,7 @@
   flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
+  gap: .8rem;
   background-color: var(--primary-color);
   border-radius: 1rem;
   padding: .7rem;
@@ -19,18 +20,10 @@
 
   .pages {
     display: inherit;
-    justify-content: start;
+    align-items: center;
     gap: 1.2rem;
-    overflow-x: scroll;
-    cursor: grab;
-    max-width: 75%;
-    height: 100%;
     user-select: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-      -ms-overflow-style: none;
-    }
+    color: var(--gold);
     
     .single_page {
       color: var(--gold);

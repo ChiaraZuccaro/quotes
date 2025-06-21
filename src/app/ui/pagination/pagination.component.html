@@ -5,9 +5,23 @@
   </button>
 
   <div class="pages">
+    @if(!pageSections.includes(1)) {
+      <button type="button" (click)="changePage(1)" class="single_page">
+        <span>1</span>
+      </button>
+      <small>...</small>
+    }
+
     @for (pg of pageSections; track $index) {
       <button type="button" (click)="changePage(pg)" class="single_page" [class.current]="pg === dataPage().page">
         <span>{{pg}}</span>
+      </button>
+    }
+
+    @if(!pageSections.includes(dataPage().totalPages)) {
+      <small>...</small>
+      <button type="button" (click)="changePage(dataPage().totalPages)" class="single_page">
+        <span>{{ dataPage().totalPages }}</span>
       </button>
     }
   </div>
