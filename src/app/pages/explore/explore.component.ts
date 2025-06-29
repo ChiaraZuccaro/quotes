@@ -30,8 +30,6 @@ export class ExploreComponent implements OnInit {
     this._route.queryParams.subscribe(qp => {
       const pg = qp['page'];
 
-      if(isNotValidPage(pg)) return;
-
       this.isLoading.set(true);
       this.quotesService.getListExplore(pg).pipe(
         catchError(err =>  throwError(() => err)),

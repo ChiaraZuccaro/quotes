@@ -26,7 +26,12 @@ export class PaginationComponent implements OnInit {
     this._route.queryParams.subscribe(qp => {
       const page = qp['page'];
 
-      if(isNotValidPage(page)) return;
+      if(isNotValidPage(page, this.dataPage().totalPages)) {
+        const isPageMinorMin = +page < 1;
+        const isPageMajorMax = +page > this.dataPage().totalPages;
+        const resetPage = isPageMinorMin ? 1 : isPageMajorMax ?  this.dataPage().totalPages : 1;
+        this.changePage(resetPage);
+      };
 
       this.pageSections = this.getVisiblePages(+page);
     })
