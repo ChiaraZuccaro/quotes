@@ -6,7 +6,7 @@
   @if (isLoading()) {
     Looking for new quotes ....
   } @else {
-    <!-- <list [list]="quotesService.exploreQuotes()"></list> -->
+    <list [list]="quotesService.exploreQuotes()"></list>
     <pagination [dataPage]="paginator"></pagination>
   }
 </section>

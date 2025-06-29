@@ -10,7 +10,8 @@ import { FirebaseService } from './firebase.service';
 export class QuotesService {
   // Warning: base uri is a configurated virtual host!
   private readonly baseUri: string = 'http://quotes.local/quote';
-  // Firebase
+  // Injects
+  private _http = inject(HttpClient);
   private _firestoreService = inject(FirebaseService);
   // Filters
   public initFilters: Filters = {
@@ -40,42 +41,6 @@ export class QuotesService {
   });
   // Pagination
   public currentPage = signal(1);
-
-
-  // public saveQuotes = computed(() => {
-  //   if(this.userQuotes().length > 0) {
-  //     const savePromises = this.userQuotes().map(qt => this._firestoreService.addQuote(qt));
-
-  //     Promise.all(savePromises).then(res => {
-  //       console.log(res);
-        
-  //       debugger
-  //     })
-  //     // TODO this is going to be replaced by firebase
-  //     // localStorage.removeItem('user_quotes');
-  //     // localStorage.setItem('user_quotes', JSON.stringify(this.userQuotes()));
-  //   }
-  // });
-
-
-  // public saveQuotes = computed(() => {
-  //   if(this.userQuotes().length > 0) {
-  //     const savePromises = this.userQuotes().map(qt => this._firestoreService.addQuote(qt));
-
-  //     Promise.all(savePromises).then(res => {
-  //       console.log(res);
-        
-  //       debugger
-  //     })
-  //     // TODO this is going to be replaced by firebase
-  //     // localStorage.removeItem('user_quotes');
-  //     // localStorage.setItem('user_quotes', JSON.stringify(this.userQuotes()));
-  //   }
-  // });
-
-  constructor(
-    private _http: HttpClient
-  ) { }
 
   public canSaveQuote(quoteId: string): boolean {
     const indexFinded = this.userQuotes().findIndex(quote => quote.id_custom.includes(quoteId));

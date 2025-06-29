@@ -7,7 +7,6 @@ import { QuotesService } from '@services/quotes.service';
 import { SeoService } from '@services/seo.service';
 import { ListComponent } from '@ui/list/list.component';
 import { PaginationComponent } from '@ui/pagination/pagination.component';
-import { isNotValidPage } from '@utils/query-params.utils';
 import { catchError, finalize, throwError } from 'rxjs';
 
 @Component({
